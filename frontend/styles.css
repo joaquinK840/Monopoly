@@ -1,0 +1,16 @@
+    .scoreboard {
+      max-width: 400px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+    }
+    .player {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .player:last-child {
+      border-bottom: none;
+    }
