@@ -1,20 +1,31 @@
 .container{
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 table, .view{
-    flex-direction: column;
     border: 1px solid black;
-    padding: 5px;
-    text-align: center;
-
+    padding: 0px;
+    background-color: aqua;
 }
 
 .view{
-    padding: 100px;
+    padding: 30px;
+    background-color: brown;
+}
+
+.view-2{
+    padding: 30px;
+    background-color: green;
 }
 
 td {
-    padding: 200}
+    padding: 50px;        
+}
+
+.color {
+    
+    background-color: blueviolet;
+    padding: 10px 10px;
+    
+}
