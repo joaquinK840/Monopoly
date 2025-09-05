@@ -4,14 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/frontend/CSS/styles.css">
 </head>
 <body>
-    <h1 style="text-align:center;">Tabla de Puntajes</h1>
+    <h1 style="text-align:center;">Lista de paises</h1>
     <div class="scoreboard" id="scoreboard">
         <!-- Aquí se inyectarán los datos -->
     </div>
-    
+    <form id="loginForm" autocomplete="off">
+        <h1>Iniciar sesión</h1>
+        <div>
+            <label for="name">Nombre</label>
+            <input id="name" name="name" type="text" placeholder="Tu nombre" required />
+        </div>
+
+        <div>
+            <label for="country">País</label>
+            <select id="country" name="country" required>
+                <option class="">Cargando países...</option>
+            </select>
+        </div>
+
+        <div>
+            <button id="submitBtn" type="submit">Entrar</button>
+            <div id="error" role="alert" aria-live="polite" style="display:none"></div>
+        </div>
+    </form>
 </body>
-    <script src="index.js"></script>
 </html>
