@@ -5,55 +5,43 @@ body{
   background-image: url("../assets/images/bg.webp");
 }
 
-
-.container{
-  display: flex;
-  justify-content: center;
-}
-
 .board {
-    grid-template-rows: repeat(11, 1fr);    /* 11 filas */
-    grid-template-columns: repeat(11, 1fr); /* 11 columnas */
-    width: 1000px;
-    height: 1000px;
-    border: 2px solid black;
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  width: 90vmin;
+  height: 90vmin;
+  border: 2px solid black;
+  margin: auto;
+  margin-top: 1.5%;
 }
 
 .cell {
-    border: 1px solid #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    background:#D2EADC;
-}
-
-.esquina{
-  padding: 70px;
-}
-
-.center {
-  border: none; /* centro vacío */
-  background:#D2EADC;
-}
-
-.img_board{
+  border: 1px solid #999;
   display: flex;
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
 }
 
+.esquina {
+  background-color: #F4D35E;
+  padding: 80px;
+}
 
-.img_board {
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 1;
-    width: 670px;   /* Cambia este valor para ajustar el tamaño */
-    height: 670px;  /* Cambia este valor para ajustar el tamaño */
-    object-fit: contain;
+/* Centro ocupa de fila 2 a 10 y columna 2 a 10 */
+.center {
+  grid-column: 2 / 11;
+  grid-row: 2 / 11;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #D2EADC;
+}
+
+.center img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
