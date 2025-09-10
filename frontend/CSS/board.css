@@ -48,7 +48,7 @@ body{
 
 .img_board {
     position: absolute;
-    top: 53%;
+    top: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
