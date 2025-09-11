@@ -1,3 +1,4 @@
+//header
 // Lógica para lanzar dados y mostrar el resultado visualmente
 function lanzarDados() {
   // Genera dos números aleatorios entre 1 y 6
@@ -77,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// board
 fetch("http://127.0.0.1:5000/board")
   .then((res) => res.json())
   .then((data) => {

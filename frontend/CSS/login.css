@@ -1,0 +1,32 @@
+body {
+  background: linear-gradient(135deg, #ff4c4c, #ffd633, #28a745);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Tarjeta estilo Monopoly */
+.card-monopoly {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-monopoly:hover {
+  transform: scale(1.03);
+}
+
+
+/* Títulos estilo Monopoly */
+h1, h2 {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  color: #000;
+  letter-spacing: 1px;
+}
