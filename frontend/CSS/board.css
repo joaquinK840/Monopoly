@@ -28,8 +28,18 @@ body{
 }
 
 .esquina {
-  background-color: #F4D35E;
-  padding: 80px;
+    /* referencia para el contenido absoluto */
+  padding: 12cap; 
+  background-color: #CCE3C7;   /* por si la imagen se pasa */
+}
+
+.img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cubre toda la casilla */
 }
 
 /* Franja de color, se adapta según la clase */
@@ -76,10 +86,10 @@ body{
   height: 100%;
   background: orange;
 }
-
 .jail {
- position: absolute;
-  top: -3%;
+  background-color: #CCE3C7;
+  position: absolute;
+  top: 0%;
   right: 0;
   width: 80%;
   height: 80%;
