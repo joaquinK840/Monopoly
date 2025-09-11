@@ -17,16 +17,73 @@ body{
 }
 
 .cell {
+  position: relative;
   border: 1px solid #999;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
+  font-size: 0.7rem;
+  text-align: center;
+  background-color: #D2EADC;
 }
 
 .esquina {
   background-color: #F4D35E;
   padding: 80px;
+}
+
+/* Franja de color, se adapta según la clase */
+.cell.color-top::before,
+.cell.color-bottom::before,
+.cell.color-left::before,
+.cell.color-right::before {
+  content: "";
+  position: absolute;
+}
+
+/* Arriba del tablero → franja abajo */
+.cell.color-top::before {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;  /* grosor de franja */
+  background: red; /* puedes cambiar color */
+}
+
+/* Abajo del tablero → franja arriba */
+.cell.color-bottom::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: blue;
+}
+
+/* Lado izquierdo → franja a la derecha */
+.cell.color-left::before {
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  background: green;
+}
+
+/* Lado derecho → franja a la izquierda */
+.cell.color-right::before {
+  top: 0;
+  left: 0;
+  width: 20%;
+  height: 100%;
+  background: orange;
+}
+
+.jail {
+ position: absolute;
+  top: -3%;
+  right: 0;
+  width: 80%;
+  height: 80%;
+  object-fit: contain; /* mantiene proporción de la imagen */
 }
 
 /* Centro ocupa de fila 2 a 10 y columna 2 a 10 */
@@ -45,3 +102,6 @@ body{
   max-height: 100%;
   object-fit: contain;
 }
+
+
+
