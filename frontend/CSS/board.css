@@ -43,48 +43,78 @@ body{
 }
 
 /* Franja de color, se adapta según la clase */
-.cell.color-top::before,
-.cell.color-bottom::before,
-.cell.color-left::before,
-.cell.color-right::before {
+.cell.color-top-red::before,
+.cell.color-top-yellow::before,
+.cell.color-bottom-blue::before,
+.cell.color-bottom-brown::before,
+.cell.color-left-green::before,
+.cell.color-left-blue::before,
+.cell.color-right-orange::before,
+.cell.color-right-violet::before {
   content: "";
   position: absolute;
 }
 
 /* Arriba del tablero → franja abajo */
-.cell.color-top::before {
-  top: 0;
+.cell.color-top-red::before {
+  bottom: 0;
   width: 100%;
   height: 20%;  /* grosor de franja */
   background: red; /* puedes cambiar color */
 }
 
+.cell.color-top-yellow::before {
+  bottom: 0;
+  width: 100%;
+  height: 20%;  /* grosor de franja */
+  background: yellow; /* puedes cambiar color */
+}
+
 /* Abajo del tablero → franja arriba */
-.cell.color-bottom::before {
+.cell.color-bottom-blue::before {
   top: 0;
-  left: 0;
   width: 100%;
   height: 20%;
-  background: blue;
+  background: rgba(177,197,229,255);
+}
+
+.cell.color-bottom-brown::before {
+  top: 0;
+  width: 100%;
+  height: 20%;
+  background: #79130b;
 }
 
 /* Lado izquierdo → franja a la derecha */
-.cell.color-left::before {
-  top: 0;
-  right: 0;
+.cell.color-left-green::before {
+  left: 0;
   width: 20%;
   height: 100%;
   background: green;
 }
 
-/* Lado derecho → franja a la izquierda */
-.cell.color-right::before {
-  top: 0;
+.cell.color-left-blue::before {
   left: 0;
+  width: 20%;
+  height: 100%;
+  background: blue;
+}
+
+/* Lado derecho → franja a la izquierda */
+.cell.color-right-orange::before {
+  right: 0;
   width: 20%;
   height: 100%;
   background: orange;
 }
+
+.cell.color-right-violet::before {
+  right: 0;
+  width: 20%;
+  height: 100%;
+  background: #bf005f;
+}
+
 .jail {
   background-color: #CCE3C7;
   position: absolute;
