@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuarios desde API</title>
-    <!-- Enlace a Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <!-- El atributo defer es para que el script se ejecute luego de que está cargada la página -->
-    <script src="../JS/ranking.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuarios desde API</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/ranking.css">
+  
 </head>
 <body class="container mt-5">
 
-    <h2 class="text-center mb-4">Usuarios desde API</h2>
+  <h2 class="text-center mb-4">Usuarios desde API</h2>
 
-    <button id="cargarUsuarios" class="btn btn-success mb-3">Cargar Usuarios</button>
+  <button id="cargarUsuarios" class="btn btn-success mb-3">Cargar Usuarios</button>
 
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>PAIS</th>
-                <th>Nombre</th>
-                <th>ID</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="tablaUsuarios">
-            
-        </tbody>
-    </table>
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>PAÍS</th>
+        <th>Nombre</th>
+        <th>Puntaje</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody id="tablaUsuarios"></tbody>
+  </table>
 
 </body>
+<!-- Cargamos SOLO la ruta de ranking -->
+  <script src="../js/routes/ranking.js" type="module" defer></script>
+</html>
