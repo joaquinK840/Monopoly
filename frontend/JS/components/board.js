@@ -4,17 +4,19 @@ export function renderBoard(data) {
   const sections = ["top", "right", "bottom", "left"];
 
   sections.forEach((section) => {
-    const cells = Array.from(document.querySelectorAll(".cell")).filter(
-      (cell) => cell.textContent.trim() === section
-    );
-
     const items = data[section];
 
-    cells.forEach((cell, index) => {
-      if (items[index]) {
-        cell.textContent = items[index].name;
-      } else {
-        cell.textContent = "";
+    items.forEach((item) => {
+      // Buscar la celda cuyo id coincide con el del JSON
+      const cell = document.getElementById(item.id);
+
+      if (cell) {
+        cell.textContent = item.name;
+
+        // Si quieres marcar estilos según el tipo
+        if (item.type) {
+          cell.classList.add(`type-${item.type}`);
+        }
       }
     });
   });
