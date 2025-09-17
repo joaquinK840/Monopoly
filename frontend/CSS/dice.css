@@ -1,0 +1,26 @@
+.dado-visual {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  margin: 0 10px;
+  box-shadow: 2px 2px 8px #aaa;
+}
+
+.dado-visual .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  display: block;
+  margin: auto;
+}
+
+.dado-visual .dot.filled {
+  background: #222;
+}
