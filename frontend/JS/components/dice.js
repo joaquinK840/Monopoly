@@ -1,3 +1,5 @@
+import { moveToken } from "./motion.js";
+
 function crearDadoHTML(valor) {
   const puntos = [
     [],
@@ -19,6 +21,9 @@ export function lanzarDados() {
   const dado1 = Math.floor(Math.random() * 6) + 1;
   const dado2 = Math.floor(Math.random() * 6) + 1;
   mostrarResultadoDados(dado1, dado2);
+
+  // 🚨 Mover token con el resultado de los dados
+  moveToken(dado1, dado2);
 }
 
 function mostrarResultadoDados(dado1, dado2) {
