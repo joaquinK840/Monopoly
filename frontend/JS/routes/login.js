@@ -1,5 +1,6 @@
+// js/routes/login.js
 import { loadCountries } from "../components/countrySelect.js";
-import { renderLogin } from "../components/login.js";
+import { renderLogin, setupLogin } from "../components/login.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const containers = document.querySelectorAll(".col");
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = renderLogin();
   });
 
-  // Aquí cargamos los países después de que el login ya está inyectado
+  // Ahora que ya se inyectaron los formularios:
   loadCountries();
+  setupLogin();  // <- IMPORTANTE
 });
