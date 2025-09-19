@@ -92,7 +92,7 @@ export function setupLogin() {
         return;
       }
 
-      x
+      
 
       try {
         await saveUser(username, country);
