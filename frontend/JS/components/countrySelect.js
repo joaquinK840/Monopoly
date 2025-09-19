@@ -1,32 +1,42 @@
 // js/components/countrySelect.js
-export function renderCountrySelect(countries, selectId, previewId) {
-  const select = document.getElementById(selectId);
-  const flagPreview = document.getElementById(previewId);
+import { getCountries } from "../services/LoginCountryServices.js";
 
-  if (!select) return;
+export async function loadCountries() {
+  const selects = document.querySelectorAll(".scoreboard");
+  const flagPreviews = document.querySelectorAll(".flag-preview");
+  
 
-  // Reset opciones
-  select.innerHTML = '<option value="">-- Selecciona un país --</option>';
+  if (!selects.length) return;
 
-  // Llenar el select con países
-  countries.forEach((country) => {
-    const [code, name] = Object.entries(country)[0];
-    const option = document.createElement("option");
-    option.value = code;
-    option.textContent = name;
-    select.appendChild(option);
-  });
+  try {
+    const countries = await getCountries();
 
-  // Escuchar cambios y mostrar bandera
-  select.addEventListener("change", () => {
-    const code = select.value.toLowerCase();
-    if (code) {
-      flagPreview.innerHTML = `
-        <img src="https://flagcdn.com/48x36/${code}.png" 
-             alt="Bandera" class="border rounded">
-      `;
-    } else {
-      flagPreview.innerHTML = "";
-    }
-  });
+    selects.forEach((select, index) => {
+      // llenar cada <select>
+      countries.forEach((country) => {
+        const [code, name] = Object.entries(country)[0];
+
+        const option = document.createElement("option");
+        option.value = code;
+        option.textContent = name;
+
+        select.appendChild(option);
+      });
+
+      // evento de cambio en cada select
+      select.addEventListener("change", () => {
+        const selected = select.value;
+        const preview = flagPreviews[index]; // el flag-preview correspondiente
+
+        if (preview) {
+          preview.innerHTML = `
+            <img src="https://flagcdn.com/w40/${selected.toLowerCase()}.png"
+                 alt="Bandera de ${selected}" width="40">
+          `;
+        }
+      });
+    });
+    } catch (err) {
+    console.error("Error cargando países:", err);
+  }
 }
