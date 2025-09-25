@@ -1,3 +1,14 @@
+// Lógica para ingreso manual de dados
+export function lanzarDadosManual() {
+  const val1 = parseInt(document.getElementById('input-dado1').value);
+  const val2 = parseInt(document.getElementById('input-dado2').value);
+  if (val1 >= 1 && val1 <= 6 && val2 >= 1 && val2 <= 6) {
+    mostrarResultadoDados(val1, val2);
+    moveToken(val1, val2);
+  } else {
+    alert('Ingresa valores entre 1 y 6 para ambos dados');
+  }
+}
 import { moveToken } from "./motion.js";
 
 function crearDadoHTML(valor) {
@@ -40,5 +51,9 @@ export function initDice() {
   const boton = document.getElementById("boton-lanzar-dados");
   if (boton) {
     boton.addEventListener("click", lanzarDados);
+  }
+  const botonManual = document.getElementById("boton-dados-manual");
+  if (botonManual) {
+    botonManual.addEventListener("click", lanzarDadosManual);
   }
 }
