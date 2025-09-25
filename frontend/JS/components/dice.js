@@ -9,7 +9,7 @@ export function lanzarDadosManual() {
     alert('Ingresa valores entre 1 y 6 para ambos dados');
   }
 }
-import { moveToken } from "./motion.js";
+import { moveToken } from "../controllers/motion.js";
 
 function crearDadoHTML(valor) {
   const puntos = [

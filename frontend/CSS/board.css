@@ -139,5 +139,23 @@ body{
   object-fit: contain;
 }
 
+.cell-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 200px;
+  pointer-events: none;
+  z-index: 1000;
+  transform: translate(-50%, -120%);
+}
+
+.cell-tooltip.hidden {
+  display: none;
+}
+
+
 
 
