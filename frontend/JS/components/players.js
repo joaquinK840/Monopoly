@@ -23,7 +23,7 @@ export function renderCardPlayer(player) {
             <h5 class="card-title text-primary">${player.name}</h5>
             
             <div class="mb-2">
-                <span class="fw-bold">Dinero:</span> 0
+                <span class="fw-bold">Dinero:</span> 1500
             </div>
             
             <div class="mb-3">
