@@ -1,5 +1,4 @@
-import {getPlayersCount} from '../utils/players.js';
-
+import {getPlayersCount} from "../controllers/players.js"
 let currentPlayerIndex = 0; // índice del jugador actual
 let playerPositions = [];// posición inicial de los jugadores
 
