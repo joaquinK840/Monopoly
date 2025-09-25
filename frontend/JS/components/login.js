@@ -41,7 +41,6 @@ export function setupLogin() {
     players = JSON.parse(sessionStorage.getItem("players") || "[]");
 
     console.log("Jugadores actuales:", players);
-
     forms.forEach((form, idx) => {
       const playerSlot = form.parentElement.querySelector(".player-slot");
       const errorBox = form.querySelector(".error-msg");
@@ -135,6 +134,7 @@ export function setupLogin() {
       });
     }
   }
+
   refreshUI();
 
   
@@ -144,3 +144,4 @@ export function getPlayers() {
   return JSON.parse(sessionStorage.getItem("players") || "[]");
   
 }
+
