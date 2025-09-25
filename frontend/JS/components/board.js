@@ -1,4 +1,4 @@
-import {showPlayers, getPlayersCount} from '../utils/players.js';
+import {showPlayers, getPlayersCount} from '../controllers/players.js';
 
 export function renderBoard(data) {
    // Llamar a la función para mostrar los jugadores
@@ -16,7 +16,7 @@ export function renderBoard(data) {
 
     items.forEach((item) => {
       // Buscar la celda cuyo id coincide con el del JSON
-      const cell = document.getElementById(cell-$`{item.id}`);
+      const cell = document.getElementById(`cell-${item.id}`);
 
       if (cell) {
         cell.textContent = item.name;
