@@ -24,13 +24,20 @@ body{
   align-items: center;
   font-size: 0.7rem;
   text-align: center;
-  background-color: #D2EADC;
+  background-color: #CCE3C7;
 }
 
-.esquina {
+.corner {
     /* referencia para el contenido absoluto */
-  padding: 12cap; 
-  background-color: #CCE3C7;   /* por si la imagen se pasa */
+  width: 18cap;
+  height:18cap;
+}
+
+.corner-img {
+  position: absolute;
+  width: 101%;
+  height:101%;
+  object-fit: contain; /* mantiene proporción de la imagen */
 }
 
 .img {
@@ -43,27 +50,27 @@ body{
 }
 
 /* Franja de color, se adapta según la clase */
-.cell.color-top-red::before,
-.cell.color-top-yellow::before,
-.cell.color-bottom-blue::before,
-.cell.color-bottom-brown::before,
-.cell.color-left-green::before,
-.cell.color-left-blue::before,
-.cell.color-right-orange::before,
-.cell.color-right-violet::before {
+.red::before,
+.yellow::before,
+.blue::before,
+.brown::before,
+.green::before,
+.purple::before,
+.orange::before,
+.pink::before {
   content: "";
   position: absolute;
 }
 
 /* Arriba del tablero → franja abajo */
-.cell.color-top-red::before {
+.red::before {
   bottom: 0;
   width: 100%;
   height: 20%;  /* grosor de franja */
   background: red; /* puedes cambiar color */
 }
 
-.cell.color-top-yellow::before {
+.yellow::before {
   bottom: 0;
   width: 100%;
   height: 20%;  /* grosor de franja */
@@ -71,14 +78,14 @@ body{
 }
 
 /* Abajo del tablero → franja arriba */
-.cell.color-bottom-blue::before {
+.blue::before {
   top: 0;
   width: 100%;
   height: 20%;
   background: rgba(177,197,229,255);
 }
 
-.cell.color-bottom-brown::before {
+.brown::before {
   top: 0;
   width: 100%;
   height: 20%;
@@ -86,43 +93,33 @@ body{
 }
 
 /* Lado izquierdo → franja a la derecha */
-.cell.color-left-green::before {
+.green::before {
   left: 0;
   width: 20%;
   height: 100%;
   background: green;
 }
 
-.cell.color-left-blue::before {
-  left: 0;
-  width: 20%;
-  height: 100%;
-  background: blue;
+.purple::before {
+  top: 0;
+  width: 100%;
+  height: 20%;
+  background: purple;
 }
 
 /* Lado derecho → franja a la izquierda */
-.cell.color-right-orange::before {
+.orange::before {
   right: 0;
   width: 20%;
   height: 100%;
   background: orange;
 }
 
-.cell.color-right-violet::before {
+.pink::before {
   right: 0;
   width: 20%;
   height: 100%;
   background: #bf005f;
-}
-
-.jail {
-  background-color: #CCE3C7;
-  position: absolute;
-  top: 0%;
-  right: 0;
-  width: 80%;
-  height: 80%;
-  object-fit: contain; /* mantiene proporción de la imagen */
 }
 
 /* Centro ocupa de fila 2 a 10 y columna 2 a 10 */
