@@ -13,3 +13,4 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCountries();
   setupLogin();  // <- IMPORTANTE
 });
+
