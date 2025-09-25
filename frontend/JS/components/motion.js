@@ -1,39 +1,53 @@
-let currentPosition = 0; // posición inicial del jugador
+import {getPlayersCount} from '../utils/players.js';
+
+let currentPlayerIndex = 0; // índice del jugador actual
+let playerPositions = [];// posición inicial de los jugadores
 
 // Crear el div de la ficha
-function createTokenElement() {
+function createTokenElement(playerIndex) {
   const token = document.createElement("div");
-  token.id = "player-token";
-  token.textContent = "🏃"; // puedes cambiar el emoji si quieres
+  token.id = `player-token-${playerIndex}`;
+  token.textContent = "🏃";
   return token;
 }
 
 // Renderizar la ficha en la posición actual
-export function renderToken(position =0) {
-  currentPosition = position;
+export function renderAllTokens() {
+  const playersCount = getPlayersCount();
+  playerPositions = Array(playersCount).fill(0); // todos empiezan en la celda 0
 
-  const targetCell = document.getElementById(`cell-${currentPosition}`);
-  if (!targetCell) return;
-  console.log(targetCell)
-
-  
-
-  // Si ya existe el token en otra celda, lo quitamos
-  const existingToken = document.getElementById("player-token");
-  if (existingToken) {
-    existingToken.remove();
+  for (let i = 0; i < playersCount; i++) {
+    const targetCell = document.getElementById(`cell-0`);
+    targetCell.appendChild(createTokenElement(i));
   }
-  
-
-  // Agregamos el token en la nueva celda
-  targetCell.appendChild(createTokenElement());
 }
+
 
 // Mover ficha según los dados
 export function moveToken(dice1, dice2) {
   const steps = dice1 + dice2;
-  currentPosition = (currentPosition + steps) % 40; // tablero circular (0 a 39)
-  renderToken(currentPosition);
-  console.log(steps + " dados")
-  console.log(currentPosition + " posicion en el tablero")
+  const playersCount = getPlayersCount();
+
+  // Posición del jugador actual
+  let currentPosition = playerPositions[currentPlayerIndex];
+
+  // Nueva posición (tablero circular de 40 celdas)
+  currentPosition = (currentPosition + steps) % 40;
+  playerPositions[currentPlayerIndex] = currentPosition;
+
+  // Mover ficha correspondiente
+  const tokenId = `player-token-${currentPlayerIndex}`;
+  const token = document.getElementById(tokenId);
+
+  if (token) {
+    const targetCell = document.getElementById(`cell-${currentPosition}`);
+    targetCell.appendChild(token);
+  }
+
+  console.log(
+    `Jugador ${currentPlayerIndex + 1} avanzó ${steps} pasos y está en ${currentPosition}`
+  );
+
+  // Pasar turno al siguiente jugador
+  currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
 }
