@@ -1,68 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero Monopoly (11x11)</title>
-    <link rel="stylesheet" href="../CSS/dice.css">
-    <link rel="stylesheet" href="../CSS/board.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablero Monopoly</title>
+  
+  <!-- Bootstrap -->
+   <link rel="stylesheet" href="../CSS/board.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <!-- Estilos Monopoly -->
+  <style>
+    body {
+
+      font-family: 'Trebuchet MS', sans-serif;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #006400, #228B22); /* Verde Monopoly */
+    }
+    .navbar .navbar-brand, .navbar .nav-link {
+      color: white !important;
+      font-weight: bold;
+    }
+    .navbar .nav-link:hover {
+      color: #FFD700 !important; /* Dorado */
+    }
+
+    /* Sección de dados */
+    #manual-dados, #boton-lanzar-dados {
+      margin-top: 15px;
+    }
+    #resultado-dados {
+      font-size: 2rem;
+      background: #fff;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid #228B22;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+    .input-dado {
+      width: 80px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-right: 5px;
+    }
+    /* Cards laterales */
+    .info-card, #player {
+      background: #fff;
+      border: 2px solid #006400;
+      border-radius: 12px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+    }
+    .info-card h5, #player h5 {
+      color: #006400;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Monopoly🏠</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./ranking.html">Puntajes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Idioma</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./login.html">Cerrar Sesión</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="container mt-4 text-center">
-            <button id="boton-lanzar-dados" class="btn btn-primary">Lanzar Dados</button>
-            <div id="resultado-dados" class="mt-3" style="font-size:2rem; display:flex; justify-content:center; gap:1rem;"></div>
-            
-            <!-- Ingreso manual de dados -->
-            <div id="manual-dados" class="mt-4">
-                <input type="number" id="input-dado1" min="1" max="6" placeholder="Dado 1" class="input-dado" />
-                <input type="number" id="input-dado2" min="1" max="6" placeholder="Dado 2" class="input-dado" />
-                <button id="boton-dados-manual" class="btn btn-success">Ingresar Dados</button>
-            </div>
-        </div>
-        
-    </nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Monopoly 🏠</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="./ranking.html">📊 Puntajes</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">🌍 Idioma</a></li>
+          <li class="nav-item"><a class="nav-link" href="./login.html">🚪 Cerrar Sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<div class="container-fluid d-flex mt-1">
-  <!-- Cards -->
-  <div class="d-flex flex-column gap-3 me-2">
-    <div id="player" class="card p-3"></div>
-    <div id="cell-info-card" class="info-card hidden card p-3"></div>
+  <!-- Sección de dados -->
+  <div class="container mt-4 text-center">
+    <h3 class="fw-bold text-success">🎲 Lanzamiento de Dados</h3>
+    <button id="boton-lanzar-dados" class="btn btn-danger btn-lg mt-2">Lanzar Dados</button>
+    <div id="resultado-dados" class="mt-3 d-flex justify-content-center gap-3"></div>
+
+    <!-- Ingreso manual -->
+    <div id="manual-dados" class="mt-4">
+      <input type="number" id="input-dado1" min="1" max="6" placeholder="Dado 1" class="input-dado" />
+      <input type="number" id="input-dado2" min="1" max="6" placeholder="Dado 2" class="input-dado" />
+      <button id="boton-dados-manual" class="btn btn-success">Ingresar Dados</button>
+    </div>
   </div>
 
-    <div class="board">
-      
-        <div class="center">
-            <img src="../assets/images/board.png" alt="Monopoly">
-        </div>
-        
+  <!-- Layout con tablero y cards -->
+  <div class="container-fluid d-flex mt-4">
+    <!-- Lateral Izquierdo -->
+    <div class="d-flex flex-column gap-3 me-3" style="width:280px;">
+      <div id="player" class="card p-3 text-center">
+        <h5>👤 Jugadores</h5>
+        <p>Aquí aparecerán los jugadores</p>
+      </div>
+      <div id="cell-info-card" class="info-card hidden card p-3 text-center">
+        <h5>📍 Información de casilla</h5>
+      </div>
     </div>
-</div>
 
+    <!-- Tablero -->
+    <div class="board">
+      <div class="center">
+        <img src="../assets/images/board.png" alt="Monopoly">
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="../JS/routes/board.js" type="module"></script>
   <script src="../JS/routes/players.js" type="module"></script>
+
 </body>
 </html>
