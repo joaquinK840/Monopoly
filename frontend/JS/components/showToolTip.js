@@ -7,7 +7,6 @@ let boardData = null; // guardaremos el JSON del tablero
 // Inyectar boardData desde fuera (para usar en tooltip)
 export function setBoardData(data) {
   boardData = data;
-  console.log(boardData)
 }
 
 export function showTooltip(cellId) {
@@ -25,6 +24,7 @@ export function showTooltip(cellId) {
     <h3>${cellInfo.name}</h3>
     <p><strong>Tipo:</strong> ${cellInfo.type}</p>
     ${cellInfo.price ? `<p><strong>Precio:</strong> $${cellInfo.price}</p>` : ""}
+    ${cellInfo.type === "property" || cellInfo.type === "railroad"? `<button class="btn btn-primary text-white">Comprar</button>` : ""}
   `;
 
   card.classList.remove("hidden");
