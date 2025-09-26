@@ -1,16 +1,9 @@
 import { renderPlayerContainers } from "../components/players.js";
 import { getPlayersCount } from "./players.js";
-import { getCellInfoById } from "../components/infoCell.js"; // para buscar info de la celda
+import { showTooltip } from "../components/showToolTip.js";
 
 let currentPlayerIndex = 0; // índice del jugador actual
 let playerPositions = []; // posición inicial de los jugadores
-let boardData = null; // guardaremos el JSON del tablero
-
-// Inyectar boardData desde fuera (para usar en tooltip)
-export function setBoardData(data) {
-  boardData = data;
-}
-
 
 // Crear el div de la ficha
 function createTokenElement(playerIndex) {
@@ -62,29 +55,6 @@ function highlightSection(currentPosition) {
       cell.classList.add("visible", "vertical-strip"); 
     }
   });
-}
-
-
-
-// Mostrar tooltip con la info de la casilla
-function showTooltip(cellId) {
-  if (!boardData) return console.error("boardData no está definido");
-
-  const card = document.getElementById("cell-info-card");
-  const cellInfo = getCellInfoById(boardData, cellId);
-
-  if (!cellInfo) {
-    card.classList.add("hidden");
-    return;
-  }
-
-  card.innerHTML = `
-    <h3>${cellInfo.name}</h3>
-    <p><strong>Tipo:</strong> ${cellInfo.type}</p>
-    ${cellInfo.price ? `<p><strong>Precio:</strong> $${cellInfo.price}</p>` : ""}
-  `;
-
-  card.classList.remove("hidden");
 }
 
 // Mover ficha según los dados
