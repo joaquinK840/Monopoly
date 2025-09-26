@@ -1,3 +1,11 @@
+.loginForm h2 {
+  font-family: 'Luckiest Guy', cursive !important;
+  font-size: 2.2rem;
+  color: black;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 /* Card de jugador en login */
 .player-container {
   background: #fff;
@@ -8,29 +16,70 @@
   max-width: 220px;
   display: inline-block;
 }
+
 body {
-  background: linear-gradient(135deg, #ff4c4c, #ffd633, #28a745);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
+  font-family: 'Luckiest Guy', cursive !important;
+  background: url('https://c4.wallpaperflare.com/wallpaper/932/673/135/game-monopoly-wallpaper-preview.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
 
 /* Tarjeta estilo Monopoly */
+
 .card-monopoly {
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.92);
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
   transition: transform 0.2s ease-in-out;
+  border: 2px solid green;
+  backdrop-filter: blur(2px);
 }
 
 .card-monopoly:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+}
+
+.login-card {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.btn-primary {
+  background-color: green;
+  border: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+  background-color: green;
+}
+
+.form-label {
+  color: #222;
+  font-weight: bold;
+}
+
+.form-control, .form-select {
+  border-radius: 0.7rem;
+  border: 1.5px solid green;
+}
+
+.card-title {
+  font-family: 'Luckiest Guy', 'Impact', 'Arial Black', sans-serif;
+  color: black;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.error-msg {
+  font-size: 1rem;
+  font-weight: bold;
+  background: green(255,0,0,0.08);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 
