@@ -1,7 +1,8 @@
 import { renderBoard } from "../components/infoBoard.js";
 import { decorateBoard, renderEmptyBoard } from "../components/boardRender.js";
 import { initDice } from "../components/dice.js";
-import { renderAllTokens,setBoardData } from "../controllers/motion.js";
+import { renderAllTokens } from "../controllers/motion.js";
+import { setBoardData } from "../components/showToolTip.js";
 import { fetchBoard } from "../services/boardServices.js";
 import { getCellInfoById } from "../components/infoCell.js";
 
