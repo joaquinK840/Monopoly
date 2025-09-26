@@ -7,7 +7,6 @@ let boardData = null; // guardaremos el JSON del tablero
 // Inyectar boardData desde fuera (para usar en tooltip)
 export function setBoardData(data) {
   boardData = data;
-  console.log(boardData)
 }
 
 export function showTooltip(cellId) {
