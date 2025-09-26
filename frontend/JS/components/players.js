@@ -1,18 +1,19 @@
 import { getPlayers } from "./login.js";
 
-export function renderPlayerContainers(containerId) {
+export function renderPlayerContainers(containerId, currentPlayerIndex) {
   let players = getPlayers();
   
   // Limpia el contenedor antes de renderizar
   containerId.innerHTML = "";
 
   // Generar un div por cada jugador
-  players.forEach(player => {
+const player = players[currentPlayerIndex];
+  if (player) {
     const div = document.createElement("div");
     div.className = "player-container";
     div.innerHTML = renderCardPlayer(player);
     containerId.appendChild(div);
-  });
+  }
 }
 
 export function renderCardPlayer(player) {
