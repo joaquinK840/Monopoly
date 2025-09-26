@@ -31,36 +31,60 @@ export function renderAllTokens() {
   }
 }
 
+function highlightSection(currentPosition) {
+  const allCells = document.querySelectorAll(".board .cell");
+
+  // Reset de estado
+  allCells.forEach(cell => {
+    cell.classList.remove("visible", "vertical-strip");
+  });
+
+  // Si la pantalla es grande, mostramos todo
+  if (window.innerWidth >= 1024) {
+    allCells.forEach(cell => cell.classList.add("visible"));
+    return;
+  }
+
+  // Total de casillas en el tablero
+  const totalCells = allCells.length;
+
+  // En pantallas pequeñas → mostrar 2 atrás y 3 adelante
+  let sectionCells = [];
+  for (let offset = -2; offset <= 3; offset++) {
+    let idx = (currentPosition + offset + totalCells) % totalCells; 
+    sectionCells.push(idx);
+  }
+
+  // Mostrar solo esas
+  sectionCells.forEach(id => {
+    const cell = document.getElementById(`cell-${id}`);
+    if (cell) {
+      cell.classList.add("visible", "vertical-strip"); 
+    }
+  });
+}
+
+
+
 // Mostrar tooltip con la info de la casilla
 function showTooltip(cellId) {
   if (!boardData) return console.error("boardData no está definido");
 
-  const tooltip = document.getElementById("cell-tooltip");
+  const card = document.getElementById("cell-info-card");
   const cellInfo = getCellInfoById(boardData, cellId);
 
-  console.log("Mostrando tooltip para celda:", cellId, cellInfo);
-
   if (!cellInfo) {
-    tooltip.classList.add("hidden");
+    card.classList.add("hidden");
     return;
   }
 
-  const cellEl = document.getElementById(`cell-${cellId}`);
-  if (!cellEl) return;
-
-  // Posicionar tooltip sobre la celda
-  const rect = cellEl.getBoundingClientRect();
-  tooltip.style.left = `${rect.left + rect.width / 2}px`;
-  tooltip.style.top = `${rect.top}px`;
-
-  // Contenido del tooltip
-  tooltip.innerHTML = `
-    <strong>${cellInfo.name}</strong><br>
-    Tipo: ${cellInfo.type}<br>
-    ${cellInfo.price ? `Precio: $${cellInfo.price}` : ""}
+  card.innerHTML = `
+    <h3>${cellInfo.name}</h3>
+    <p><strong>Tipo:</strong> ${cellInfo.type}</p>
+    ${cellInfo.price ? `<p><strong>Precio:</strong> $${cellInfo.price}</p>` : ""}
   `;
 
-  tooltip.classList.remove("hidden");
+  card.classList.remove("hidden");
 }
 
 // Mover ficha según los dados
@@ -95,4 +119,5 @@ export function moveToken(dice1, dice2) {
   renderPlayerContainers(container, currentPlayerIndex);
   // Pasar turno al siguiente jugador
   currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
+  highlightSection(currentPosition);
 }

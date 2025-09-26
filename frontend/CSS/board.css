@@ -1,5 +1,4 @@
-
-body{
+body {
   width: 100%;
   height: 100%;
   background-image: url("../assets/images/bg.webp");
@@ -28,16 +27,15 @@ body{
 }
 
 .corner {
-    /* referencia para el contenido absoluto */
   width: 18cap;
-  height:18cap;
+  height: 18cap;
 }
 
 .corner-img {
   position: absolute;
   width: 101%;
-  height:101%;
-  object-fit: contain; /* mantiene proporción de la imagen */
+  height: 101%;
+  object-fit: contain;
 }
 
 .img {
@@ -46,10 +44,10 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* cubre toda la casilla */
+  object-fit: cover;
 }
 
-/* Franja de color, se adapta según la clase */
+/* Franjas de color */
 .red::before,
 .yellow::before,
 .blue::before,
@@ -62,22 +60,20 @@ body{
   position: absolute;
 }
 
-/* Arriba del tablero → franja abajo */
 .red::before {
   bottom: 0;
   width: 100%;
-  height: 20%;  /* grosor de franja */
-  background: red; /* puedes cambiar color */
+  height: 20%;
+  background: red;
 }
 
 .yellow::before {
   bottom: 0;
   width: 100%;
-  height: 20%;  /* grosor de franja */
-  background: yellow; /* puedes cambiar color */
+  height: 20%;
+  background: yellow;
 }
 
-/* Abajo del tablero → franja arriba */
 .blue::before {
   left: 0;
   width: 20%;
@@ -92,7 +88,6 @@ body{
   background: #79130b;
 }
 
-/* Lado izquierdo → franja a la derecha */
 .green::before {
   left: 0;
   width: 20%;
@@ -107,7 +102,6 @@ body{
   background: purple;
 }
 
-/* Lado derecho → franja a la izquierda */
 .orange::before {
   right: 0;
   width: 20%;
@@ -122,7 +116,7 @@ body{
   background: #bf005f;
 }
 
-/* Centro ocupa de fila 2 a 10 y columna 2 a 10 */
+/* Centro */
 .center {
   grid-column: 2 / 11;
   grid-row: 2 / 11;
@@ -139,23 +133,54 @@ body{
   object-fit: contain;
 }
 
-.cell-tooltip {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  max-width: 200px;
-  pointer-events: none;
-  z-index: 1000;
-  transform: translate(-50%, -120%);
+/* Tooltip */
+.info-card {
+  position: relative; /* no flotante, queda en el layout */
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  max-width: 250px;
+  max-height: 200px;
+  font-family: sans-serif;
 }
 
-.cell-tooltip.hidden {
+.info-card.hidden {
   display: none;
 }
 
+/* ================== MEDIA QUERIES ================== */
 
 
+@media (max-width: 768px) {
+  .center {
+    display: none; /* quitamos la imagen del centro en móvil */
+  }
 
+  .board {
+    display: flex;
+    flex-direction: column; /* apila vertical */
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+
+  /* 🔹 todas las casillas ocultas por defecto */
+  .board .cell {
+    width: 80px;   /* tamaño fijo para las casillas en móvil */
+    height: 80px;
+    margin: 2px 0;
+    display: none; /* <-- importante */
+  }
+
+  /* 🔹 las que JS marca como visibles sí aparecen */
+  .board .cell.visible {
+    display: flex;
+  }
+
+  /* Cuando sean verticales (arriba/abajo) */
+  .board .cell.vertical-strip {
+    flex-direction: column;
+  }
+}

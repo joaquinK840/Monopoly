@@ -46,17 +46,21 @@
         
     </nav>
 
-<div class="container d-flex gap-4 mt-4">
-    <div id="player"></div>
+<div class="container-fluid d-flex mt-1">
+  <!-- Cards -->
+  <div class="d-flex flex-column gap-3 me-2">
+    <div id="player" class="card p-3"></div>
+    <div id="cell-info-card" class="info-card hidden card p-3"></div>
+  </div>
 
     <div class="board">
       
         <div class="center">
             <img src="../assets/images/board.png" alt="Monopoly">
         </div>
-        <div id="cell-tooltip" class="cell-tooltip hidden"></div>
+        
     </div>
- </div>
+</div>
 
   <script src="../JS/routes/board.js" type="module"></script>
   <script src="../JS/routes/players.js" type="module"></script>
