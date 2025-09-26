@@ -1,5 +1,6 @@
-import { saveUser } from "../services/scoreService.js";
 import { getPlayersCount } from "../controllers/players.js";
+import { saveUser } from "../services/scoreService.js";
+
 
 export function renderLogin() {
   return `
@@ -22,11 +23,11 @@ export function renderLogin() {
         <button type="submit" class="btn btn-primary submit-btn">Ingresar</button>
       </div>
 
-      <div class="error-msg text-danger mt-2" ></div>
+      <div class="error-msg text-danger mt-2"></div>
     </form>
 
-    <!-- Contenedor del jugador cuando la card está ocupada -->
-    <div class="player-slot w-100 mt-3"></div>
+    <!-- 🔥 Contenedor donde iran las cards de jugadores -->
+    <div class="players-list w-100 mt-4"></div>
   </div>
   `;
 }
@@ -38,44 +39,37 @@ export function setupLogin() {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
 
   function refreshUI() {
-
     players = JSON.parse(sessionStorage.getItem("players") || "[]");
-
     console.log("Jugadores actuales:", players);
-    forms.forEach((form, idx) => {
-      const playerSlot = form.parentElement.querySelector(".player-slot");
-      const errorBox = form.querySelector(".error-msg");
 
-      errorBox.style.display = "none";
+    const playersList = document.querySelector(".players-list");
+    if (!playersList) return;
 
-      if (players[idx]) {
-        const player = players[idx];
-        form.style.display = "none";
-        playerSlot.style.display = "block";
-        playerSlot.innerHTML = `
-          <div class="alert alert-success text-center mb-0">
-            ✅ <strong>${player.name}</strong> (${player.country.toUpperCase()})
-          </div>
-        `;
-      } else {
-        form.style.display = "block";
-        playerSlot.style.display = "none";
-      }
+    // Limpiar antes de redibujar
+    playersList.innerHTML = "";
+
+    // Crear card por cada jugador
+    players.forEach(player => {
+      const card = document.createElement("div");
+      card.className = "card mb-2 shadow-sm";
+      card.innerHTML = `
+        <div class="card-body text-center">
+          <h5 class="card-title">👤 ${player.name}</h5>
+          <p class="card-text">🌍 ${player.country.toUpperCase()}</p>
+        </div>
+      `;
+      playersList.appendChild(card);
     });
 
     refreshGoBoard();
   }
 
-  console.log("Inicializando login con jugadores:", players);
-  console.log("Cantidad de jugadores:", players);
-
   function refreshGoBoard() {
     const goBtn = document.querySelector(".goBoard");
-    if (goBtn) goBtn.disabled = players.length < 2; // Usar getPlayersCount() para verificar el número de jugadores
-    console.log('validacion')
+    if (goBtn) goBtn.disabled = players.length < 2; 
   }
 
-  forms.forEach((form, idx) => {
+  forms.forEach((form) => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const errorBox = form.querySelector(".error-msg");
@@ -98,8 +92,6 @@ export function setupLogin() {
         return;
       }
 
-      
-
       try {
         await saveUser(username, country);
 
@@ -107,6 +99,9 @@ export function setupLogin() {
           players.push({ name: username, country, ready: true });
           sessionStorage.setItem("players", JSON.stringify(players));
         }
+
+        // 🔥 Refrescar UI después de guardar
+        refreshUI();
 
       } catch (err) {
         console.error("❌ Error en login submit:", err);
@@ -123,7 +118,7 @@ export function setupLogin() {
     if (container) {
       const wrapper = document.createElement("div");
       wrapper.className = "d-flex justify-content-center mt-4";
-      wrapper.innerHTML = `<button class="btn  btn-success goBoard global-board-btn" >Ir al tablero</button>`;
+      wrapper.innerHTML = `<button class="btn btn-success goBoard global-board-btn">Ir al tablero</button>`;
       container.appendChild(wrapper);
 
       const goBtn = wrapper.querySelector(".goBoard");
@@ -131,7 +126,6 @@ export function setupLogin() {
         players = JSON.parse(sessionStorage.getItem("players") || "[]");
         if (players.length < 2) {
           alert("Necesitas al menos 2 jugadores para continuar");
-          console.log('necesitas al menos 2 jugadores para continuar')
           return;
         }
         window.location.href = "./board.html";
@@ -139,19 +133,12 @@ export function setupLogin() {
     }
   }
 
-
-  
+  // Al iniciar, refrescar la UI
+  refreshUI();
 }
 
 export function getPlayers() {
   return JSON.parse(sessionStorage.getItem("players") || "[]");
-
-  
-
 }
 
-
 console.log("Jugadores en sesión:", getPlayersCount());
-
-
-
