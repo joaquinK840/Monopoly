@@ -1,5 +1,6 @@
-import { saveUser } from "../services/scoreService.js";
 import { getPlayersCount } from "../controllers/players.js";
+import { saveUser } from "../services/scoreService.js";
+import { renderAllPlayerCards } from "./players.js";
 
 export function renderLogin() {
   return `
@@ -25,8 +26,8 @@ export function renderLogin() {
       <div class="error-msg text-danger mt-2" ></div>
     </form>
 
-    <!-- Contenedor del jugador cuando la card está ocupada -->
-    <div class="player-slot w-100 mt-3"></div>
+    <!-- Contenedor de cards de jugadores -->
+    <div id="login-players-cards" class="w-100 mt-3"></div>
   </div>
   `;
 }
@@ -38,31 +39,12 @@ export function setupLogin() {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
 
   function refreshUI() {
-
     players = JSON.parse(sessionStorage.getItem("players") || "[]");
-
-    console.log("Jugadores actuales:", players);
-    forms.forEach((form, idx) => {
-      const playerSlot = form.parentElement.querySelector(".player-slot");
-      const errorBox = form.querySelector(".error-msg");
-
-      errorBox.style.display = "none";
-
-      if (players[idx]) {
-        const player = players[idx];
-        form.style.display = "none";
-        playerSlot.style.display = "block";
-        playerSlot.innerHTML = `
-          <div class="alert alert-success text-center mb-0">
-            ✅ <strong>${player.name}</strong> (${player.country.toUpperCase()})
-          </div>
-        `;
-      } else {
-        form.style.display = "block";
-        playerSlot.style.display = "none";
-      }
-    });
-
+    // Mostrar cards de jugadores en el login
+    const cardsContainer = document.getElementById("login-players-cards");
+    if (cardsContainer) {
+      renderAllPlayerCards(cardsContainer);
+    }
     refreshGoBoard();
   }
 
@@ -107,6 +89,9 @@ export function setupLogin() {
           players.push({ name: username, country, ready: true });
           sessionStorage.setItem("players", JSON.stringify(players));
         }
+
+        // Refrescar la UI para mostrar las cards
+        refreshUI();
 
       } catch (err) {
         console.error("❌ Error en login submit:", err);
