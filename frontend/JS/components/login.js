@@ -1,4 +1,5 @@
 import { saveUser } from "../services/scoreService.js";
+import { getPlayersCount } from "../controllers/players.js";
 
 export function renderLogin() {
   return `
@@ -65,9 +66,13 @@ export function setupLogin() {
     refreshGoBoard();
   }
 
+  console.log("Inicializando login con jugadores:", players);
+  console.log("Cantidad de jugadores:", players);
+
   function refreshGoBoard() {
     const goBtn = document.querySelector(".goBoard");
-    if (goBtn) goBtn.disabled = players.length < 2;
+    if (goBtn) goBtn.disabled = players.length < 2; // Usar getPlayersCount() para verificar el número de jugadores
+    console.log('validacion')
   }
 
   forms.forEach((form, idx) => {
@@ -103,8 +108,6 @@ export function setupLogin() {
           sessionStorage.setItem("players", JSON.stringify(players));
         }
 
-        refreshUI();
-
       } catch (err) {
         console.error("❌ Error en login submit:", err);
         errorBox.textContent = `Error al guardar usuario: ${err.message || err}`;
@@ -120,7 +123,7 @@ export function setupLogin() {
     if (container) {
       const wrapper = document.createElement("div");
       wrapper.className = "d-flex justify-content-center mt-4";
-      wrapper.innerHTML = `<button class="btn  btn-success goBoard global-board-btn" disabled>Ir al tablero</button>`;
+      wrapper.innerHTML = `<button class="btn  btn-success goBoard global-board-btn" >Ir al tablero</button>`;
       container.appendChild(wrapper);
 
       const goBtn = wrapper.querySelector(".goBoard");
@@ -128,6 +131,7 @@ export function setupLogin() {
         players = JSON.parse(sessionStorage.getItem("players") || "[]");
         if (players.length < 2) {
           alert("Necesitas al menos 2 jugadores para continuar");
+          console.log('necesitas al menos 2 jugadores para continuar')
           return;
         }
         window.location.href = "./board.html";
@@ -135,13 +139,19 @@ export function setupLogin() {
     }
   }
 
-  refreshUI();
 
   
 }
 
 export function getPlayers() {
   return JSON.parse(sessionStorage.getItem("players") || "[]");
+
   
+
 }
+
+
+console.log("Jugadores en sesión:", getPlayersCount());
+
+
 
