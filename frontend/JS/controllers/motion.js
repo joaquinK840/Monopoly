@@ -1,3 +1,4 @@
+import { renderPlayerContainers } from "../components/players.js";
 import { getPlayersCount } from "./players.js";
 import { getCellInfoById } from "../components/infoCell.js"; // para buscar info de la celda
 
@@ -90,6 +91,8 @@ export function moveToken(dice1, dice2) {
     `Jugador ${currentPlayerIndex + 1} avanzó ${steps} pasos y está en ${currentPosition}`
   );
 
+  const container = document.getElementById("player");
+  renderPlayerContainers(container, currentPlayerIndex);
   // Pasar turno al siguiente jugador
   currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
 }
