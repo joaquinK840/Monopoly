@@ -1,5 +1,6 @@
-import { saveUser } from "../services/scoreService.js";
 import { getPlayersCount } from "../controllers/players.js";
+import { saveUser } from "../services/scoreService.js";
+import { renderAllPlayerCards } from "./players.js";
 
 export function renderLogin() {
   return `
