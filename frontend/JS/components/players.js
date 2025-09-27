@@ -17,26 +17,26 @@ const player = players[currentPlayerIndex];
 }
 
 export function renderCardPlayer(player) {
-    return `
-    <div class="container py-3">
-        <div class="card shadow-sm" style="max-width: 200px;">
-            <div class="card-body">
-            <h5 class="card-title text-primary">${player.name}</h5>
-            
-            <div class="mb-2">
-                <span class="fw-bold">Dinero:</span> 1500
-            </div>
-            
-            <div class="mb-3">
-                <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
-                <select class="form-select" id="propiedades">
-                <option selected>propiedades</option>
-                </select>
-            </div>
-            
-            <button class="btn btn-primary w-100">Acción</button>
-            </div>
-        </div>
+  return `
+  <div class="container py-3">
+    <div class="card shadow-sm" style="max-width: 200px;">
+      <div class="card-body">
+      <h5 class="card-title text-primary">
+        ${player.name}
+        <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${player.color};margin-left:8px;border:2px solid #222;vertical-align:middle;"></span>
+      </h5>
+      <div class="mb-2">
+        <span class="fw-bold">Dinero:</span> 1500
+      </div>
+      <div class="mb-3">
+        <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
+        <select class="form-select" id="propiedades">
+        <option selected>propiedades</option>
+        </select>
+      </div>
+      <button class="btn btn-primary w-100">Acción</button>
+      </div>
     </div>
-    `
+  </div>
+  `
 }
