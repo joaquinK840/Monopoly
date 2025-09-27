@@ -41,8 +41,13 @@ function mostrarResultadoDados(dado1, dado2) {
   const contenedor = document.getElementById("resultado-dados");
   if (contenedor) {
     contenedor.innerHTML = `
-      ${crearDadoHTML(dado1)}
-      ${crearDadoHTML(dado2)}
+      <div class="d-flex align-items-center justify-content-center gap-3">
+        ${crearDadoHTML(dado1)}
+        ${crearDadoHTML(dado2)}
+      </div>
+      <div class="resultado-numero" style="margin-top:10px;font-size:1.3rem;font-family:'Luckiest Guy',cursive;color:#e63946;">
+        <span>¡Sacaste <b>${dado1 + dado2}</b>!</span>
+      </div>
     `;
   }
 }
