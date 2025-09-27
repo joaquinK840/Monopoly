@@ -1,9 +1,10 @@
 import { renderPlayerContainers } from "../components/players.js";
+import { setCurrentPlayerIndex, showTooltip } from "../components/showToolTip.js";
 import { getPlayersCount } from "./players.js";
-import { showTooltip, setCurrentPlayerIndex } from "../components/showToolTip.js";
 
 let currentPlayerIndex = 0; // índice del jugador actual
 let playerPositions = []; // posición inicial de los jugadores
+let jailStatus = []; // Estado de cárcel por jugador
 
 // Crear el div de la ficha
 function createTokenElement(playerIndex) {
@@ -61,12 +62,39 @@ function highlightSection(currentPosition) {
 export function moveToken(dice1, dice2) {
   const steps = dice1 + dice2;
   const playersCount = getPlayersCount();
-
-  // Posición del jugador actual
   let currentPosition = playerPositions[currentPlayerIndex];
 
-  // Nueva posición (tablero circular de 40 celdas)
-  currentPosition = (currentPosition + steps) % 40;
+  // Si el jugador está en la cárcel (flag)
+  if (jailStatus[currentPlayerIndex]) {
+    // Si saca dobles, sale gratis
+    if (dice1 === dice2) {
+      jailStatus[currentPlayerIndex] = false;
+      alert("¡Sacaste dobles y sales de la cárcel!");
+      currentPosition = (currentPosition + steps) % 40;
+    } else {
+      jailStatus[currentPlayerIndex]++;
+      if (jailStatus[currentPlayerIndex] > 3) {
+        alert("No sacaste dobles en 3 turnos, pagas $50 para salir.");
+        jailStatus[currentPlayerIndex] = false;
+        currentPosition = (currentPosition + steps) % 40;
+      } else {
+        alert(`Estás en la cárcel. Intento ${jailStatus[currentPlayerIndex]}/3. Debes sacar dobles para salir o esperar 3 turnos y pagar $50.`);
+        playerPositions[currentPlayerIndex] = 10;
+        currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
+        highlightSection(10);
+        return;
+      }
+    }
+  } else {
+    // Si cae en la casilla 30, va a la cárcel
+    if (currentPosition === 30) {
+      alert("¡Vas a la cárcel!");
+      currentPosition = 10;
+      jailStatus[currentPlayerIndex] = 1; // primer turno en la cárcel
+    } else {
+      currentPosition = (currentPosition + steps) % 40;
+    }
+  }
   playerPositions[currentPlayerIndex] = currentPosition;
 
   // Mover ficha correspondiente
@@ -76,20 +104,13 @@ export function moveToken(dice1, dice2) {
   if (token) {
     const targetCell = document.getElementById(`cell-${currentPosition}`);
     targetCell.appendChild(token);
-
-    // Mostrar tooltip de la nueva celda
     setCurrentPlayerIndex(currentPlayerIndex);
     showTooltip(currentPosition);
   }
 
-  console.log(
-    `Jugador ${currentPlayerIndex + 1} avanzó ${steps} pasos y está en ${currentPosition}`
-  );
-
+  console.log(`Jugador ${currentPlayerIndex + 1} avanzó ${steps} pasos y está en ${currentPosition}`);
   const container = document.getElementById("player");
   renderPlayerContainers(container, currentPlayerIndex);
-  
-  // Pasar turno al siguiente jugador
   currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
   highlightSection(currentPosition);
 }
