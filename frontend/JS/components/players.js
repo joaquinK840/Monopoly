@@ -43,30 +43,36 @@ export function renderCardPlayer(player) {
   <div class="container py-3">
     <div class="card shadow-sm" style="max-width: 320px; min-width: 270px;">
       <div class="card-body">
-      <h5 class="card-title text-primary">
-        ${player.name}
-        <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${player.color};margin-left:8px;border:2px solid #222;vertical-align:middle;"></span>
-      </h5>
-      <div class="mb-2">
-        <span class="fw-bold">Dinero:</span> ${player.money}
-      </div>
-      <div class="mb-3">
-        <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
-        <select class="form-select" id="propiedades">
-        ${player.properties && player.properties.length > 0 
-          ? player.properties.map(p => `<option value="${p.id}">${p.name}${p.mortgaged ? ' (Hipotecada)' : ''}</option>`).join("") 
-          : `<option selected disabled>No tienes propiedades</option>`}
-        </select>
-      </div>
-      <div class="row mb-2">
-        <div class="col-6 d-grid">
-          <button class="btn btn-warning btn-hipotecar" type="button">Hipotecar</button>
+        <div class="mb-2">
+          <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${player.color};margin-left:8px;border:2px solid #222;vertical-align:middle;"></span>
         </div>
-        <div class="col-6 d-grid">
-          <button class="btn btn-success btn-deshipotecar" type="button">Deshipotecar</button>
+        <h5 class="card-title text-primary">
+          ${player.name}
+        </h5>
+        <div class="d-flex align-items-center justify-content-center gap-2">
+          <p class=""fw-bold m-0">${player.country.toUpperCase()}</p>
+          <p><img src="https://flagsapi.com/${player.country.toUpperCase()}/shiny/64.png" class="flag-img"></p>
         </div>
-      </div>
-      <button class="btn btn-primary w-100">Acción</button>
+        <div class="mb-2">
+          <span class="fw-bold">Dinero:</span> ${player.money}
+        </div>
+        <div class="mb-3">
+          <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
+          <select class="form-select" id="propiedades">
+          ${player.properties && player.properties.length > 0 
+            ? player.properties.map(p => `<option value="${p.id}">${p.name}${p.mortgaged ? ' (Hipotecada)' : ''}</option>`).join("") 
+            : `<option selected disabled>No tienes propiedades</option>`}
+          </select>
+        </div>
+        <div class="row mb-2">
+          <div class="col-6 d-grid">
+            <button class="btn btn-warning btn-hipotecar" type="button">Hipotecar</button>
+          </div>
+          <div class="col-6 d-grid">
+            <button class="btn btn-success btn-deshipotecar" type="button">Deshipotecar</button>
+          </div>
+        </div>
+        <button class="btn btn-primary w-100">Acción</button>
       </div>
     </div>
   </div>

@@ -31,6 +31,8 @@ export function showTooltip(cellId) {
   // Usamos la función nueva para generar el bloque dinámico
   const extraInfo = getExtraInfo(cellInfo, players);
 
+  console.log(cellInfo)
+
   card.innerHTML = `
     <h3>${cellInfo.name}</h3>
     <p><strong>Tipo:</strong> ${cellInfo.type}</p>
@@ -38,16 +40,22 @@ export function showTooltip(cellId) {
     ${extraInfo}
   `;
 
-  // Aquí enganchamos el evento del botón
+  // Boton de compra
   const testBtn = document.getElementById("bt");
   if (testBtn) {
     testBtn.addEventListener("click", () => buyProperty(cellInfo));
   }
 
+  // Botón de pagar renta
+  const payRentBtn = document.getElementById("pay-rent-btn");
+  if (payRentBtn) {
+    payRentBtn.addEventListener("click", () => payRent(cellInfo));
+  }
+
   card.classList.remove("hidden");
 }
 
-// 
+// función para comprar propiedad
 function buyProperty(cell) {
   console.log("Comprando propiedad:", cell);
 
@@ -96,6 +104,62 @@ function buyProperty(cell) {
   //console.log("Propiedad añadida:", currentPlayer.properties);
 }
 
+function payRent(cell) {
+  let players = JSON.parse(sessionStorage.getItem("players") || "[]");
+  const currentPlayer = players[currentPlayerIndex];
+
+  if (!currentPlayer) {
+    console.error("No hay jugador activo");
+    return;
+  }
+
+  // Buscar dueño de la propiedad
+  const owner = players.find(player =>
+    player.properties.some(p => p.id === cell.id)
+  );
+
+  if (!owner) {
+    alert("Esta propiedad no tiene dueño.");
+    return;
+  }
+
+  if (owner.name === currentPlayer.name) {
+    alert("Eres el dueño, no pagas renta.");
+    return;
+  }
+
+  // Buscar la propiedad dentro del dueño
+  const propiedad = owner.properties.find(p => p.id === cell.id);
+
+  // Verificar si está hipotecada
+  if (propiedad && propiedad.mortgaged) {
+    alert(`La propiedad ${propiedad.name} está hipotecada, no pagas renta.`);
+    return;
+  }
+
+  // Validar dinero suficiente
+  const rent = cell.rent.base;
+  if (currentPlayer.money < rent) {
+    alert("No tienes suficiente dinero para pagar la renta.");
+    return;
+  }
+
+  // Transferir dinero
+  currentPlayer.money -= rent;
+  owner.money += rent;
+
+  alert(`Pagaste $${rent} de renta a ${owner.name}`);
+
+  // Guardar cambios
+  sessionStorage.setItem("players", JSON.stringify(players));
+
+  // Actualizar tablero y cartas
+  const container = document.getElementById("player");
+  renderPlayerContainers(container, currentPlayerIndex);
+
+  // Habilitar nuevamente el dado (desbloquear turno)
+}
+
 // Función que genera el contenido extra según el estado de la propiedad
 function getExtraInfo(cellInfo, players) {
   if (cellInfo.type !== "property" && cellInfo.type !== "railroad") {
@@ -108,9 +172,33 @@ function getExtraInfo(cellInfo, players) {
   );
 
   if (owner) {
-    return `<p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>`;
+    // Buscar la propiedad dentro del dueño
+    const propiedad = owner.properties.find(p => p.id === cellInfo.id);
+    const currentPlayer = players[currentPlayerIndex];
+
+    if (propiedad && propiedad.mortgaged) {
+      return `
+        <p><strong>Propiedad hipotecada:</strong> ${propiedad.name}</p>
+        <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+        <p><em>No genera renta</em></p>
+      `;
+    }
+    if (owner.name !== currentPlayer.name) {
+      return `
+        <p><strong>Precio de Renta:</strong> ${cellInfo.rent.base}</p>
+        <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+        <button id="pay-rent-btn" class="btn btn-warning text-white">Pagar renta</button>
+      `;
+    }
+    return `
+      <p><strong>Precio de Renta:</strong> ${cellInfo.rent.base}</p>
+      <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+    `;
   }
 
   // Si no tiene dueño, devolver el botón
-  return `<button id="bt" class="btn btn-primary text-white">Comprar</button>`;
+  return `
+    <p><strong>Precio de Renta:</strong> ${cellInfo.rent.base}</p>
+    <button id="bt" class="btn btn-primary text-white">Comprar</button>
+  `;
 }
