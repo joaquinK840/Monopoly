@@ -54,6 +54,7 @@ export function setupLogin() {
       card.className = "card mb-2 shadow-sm";
       card.innerHTML = `
         <div class="card-body text-center">
+          <div style="width:32px;height:32px;border-radius:50%;background:${player.color};display:inline-block;margin-bottom:8px;border:2px solid #222;"></div>
           <h5 class="card-title">👤 ${player.name}</h5>
           <p class="card-text">🌍 ${player.country.toUpperCase()}</p>
         </div>
@@ -96,7 +97,10 @@ export function setupLogin() {
         await saveUser(username, country);
 
         if (!players.some(p => p.name === username)) {
-          players.push({ name: username, country, money: 1500, properties: [] });
+          // Asignar color automático
+          const colors = ["#d7263d", "#fbb13c", "#3b4cca", "#009e60"];
+          const color = colors[players.length % colors.length];
+          players.push({ name: username, country, money: 1500, properties: [], color });
           sessionStorage.setItem("players", JSON.stringify(players));
         }
 

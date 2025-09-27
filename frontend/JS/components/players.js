@@ -2,7 +2,7 @@ import { getPlayers } from "./login.js";
 
 export function renderPlayerContainers(containerId, currentPlayerIndex) {
   let players = getPlayers();
-
+  
   // Limpia el contenedor antes de renderizar
   containerId.innerHTML = "";
 
@@ -24,13 +24,13 @@ export function renderCardPlayer(player) {
             <h5 class="card-title text-primary">${player.name}</h5>
             
             <div class="mb-2">
-                <span class="fw-bold">Dinero:</span> ${player.money}
+                <span class="fw-bold">Dinero:</span> 1500
             </div>
             
             <div class="mb-3">
                 <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
                 <select class="form-select" id="propiedades">
-                ${player.properties.map(p => `<option value="${p.id}">${p.name}</option>`).join("")}
+                <option selected>propiedades</option>
                 </select>
             </div>
             
