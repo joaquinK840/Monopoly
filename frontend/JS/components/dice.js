@@ -2,28 +2,33 @@
 export function lanzarDadosManual() {
   const val1 = parseInt(document.getElementById('input-dado1').value);
   const val2 = parseInt(document.getElementById('input-dado2').value);
-  if (val1 >= 1 && val1 <= 6 && val2 >= 1 && val2 <= 6) {
-    mostrarResultadoDados(val1, val2);
-    moveToken(val1, val2);
-  } else {
-    alert('Ingresa valores entre 1 y 6 para ambos dados');
-  }
+
+  // Mostrar el resultado sin importar el rango
+  mostrarResultadoDados(val1, val2);
+
+  // 🚨 Mover token con los valores ingresados
+  moveToken(val1, val2);
 }
+
 import { moveToken } from "../controllers/motion.js";
 
 function crearDadoHTML(valor) {
   const puntos = [
-    [],
-    [4],
-    [0, 8],
-    [0, 4, 8],
-    [0, 2, 6, 8],
-    [0, 2, 4, 6, 8],
-    [0, 2, 3, 5, 6, 8],
+    [],                           // 0
+    [4],                          // 1
+    [0, 8],                       // 2
+    [0, 4, 8],                    // 3
+    [0, 2, 6, 8],                 // 4
+    [0, 2, 4, 6, 8],              // 5
+    [0, 2, 3, 5, 6, 8],           // 6
   ];
+
+  // Si el valor no está entre 1 y 6, evitamos error mostrando vacío
+  let safeValor = (valor >= 1 && valor <= 6) ? valor : 0;
+
   let dots = "";
   for (let i = 0; i < 9; i++) {
-    dots += `<span class="dot${puntos[valor].includes(i) ? " filled" : ""}"></span>`;
+    dots += `<span class="dot${puntos[safeValor].includes(i) ? " filled" : ""}"></span>`;
   }
   return `<div class="dado-visual">${dots}</div>`;
 }
