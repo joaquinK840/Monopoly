@@ -94,25 +94,26 @@
   </div>
 
   <!-- Layout con tablero y cards -->
-  <div class="container-fluid d-flex mt-4">
-    <!-- Lateral Izquierdo -->
-    <div class="d-flex flex-column gap-3 me-3" style="width:280px;">
-      <div id="player" class="card p-3 text-center">
-        <h5>👤 Jugadores</h5>
-        <p>Aquí aparecerán los jugadores</p>
-      </div>
-      <div id="cell-info-card" class="info-card hidden card p-3 text-center">
-        <h5>📍 Información de casilla</h5>
-      </div>
+<div class="container-fluid d-flex mt-4">
+  <!-- Lateral Izquierdo -->
+  <div class="cards">
+    <div id="player" class="card p-3 text-center">
+      <h5>👤 Jugadores</h5>
+      <p>Aquí aparecerán los jugadores</p>
     </div>
-
-    <!-- Tablero -->
-    <div class="board">
-      <div class="center">
-        <img src="../assets/images/board.png" alt="Monopoly">
-      </div>
+    <div id="cell-info-card" class="info-card hidden card p-3 text-center">
+      <h5>📍 Información de casilla</h5>
     </div>
   </div>
+
+  <!-- Tablero -->
+  <div class="board">
+    <div class="center">
+      <img src="../assets/images/board.png" alt="Monopoly">
+    </div>
+  </div>
+</div>
+
 
   <!-- Scripts -->
   <script src="../JS/routes/board.js" type="module"></script>
