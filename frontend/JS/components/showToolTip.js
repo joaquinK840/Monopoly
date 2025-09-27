@@ -82,7 +82,8 @@ function buyProperty(cell) {
   // 5. Agregar la propiedad al jugador
   currentPlayer.properties.push({
     id: cell.id,
-    name: cell.name
+    name: cell.name,
+    price: cell.price
   });
 
   // 6. Actualizar el sessionStorage
