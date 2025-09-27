@@ -145,6 +145,11 @@ body {
   display: none;
 }
 
+.flag-img {
+  width: 32px;   /* ajusta el ancho que quieras */
+  height: auto;  /* mantiene la proporción */
+}
+
 /* ================== MEDIA QUERIES ================== */
 
 
