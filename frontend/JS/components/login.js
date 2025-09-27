@@ -96,7 +96,7 @@ export function setupLogin() {
         await saveUser(username, country);
 
         if (!players.some(p => p.name === username)) {
-          players.push({ name: username, country, ready: true });
+          players.push({ name: username, country, money: 1500, properties: [] });
           sessionStorage.setItem("players", JSON.stringify(players));
         }
 
