@@ -13,6 +13,7 @@ body {
   border: 2px solid black;
   margin: auto;
   margin-top: 1.5%;
+  position: relative; /* clave para que se pueda usar absolute en las cards */
 }
 
 .cell {
@@ -134,18 +135,12 @@ body {
 }
 
 /* Tooltip */
-.info-card {
-  position: relative; /* no flotante, queda en el layout */
-  padding: 1rem;
-  margin-top: 1rem;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  max-width: 250px;
-  max-height: 250px;
-  font-family: sans-serif;
-}
 
+.cards{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 .info-card.hidden {
   display: none;
 }
@@ -153,19 +148,39 @@ body {
 /* ================== MEDIA QUERIES ================== */
 
 
-@media (max-width: 768px) {
+@media (min-width: 768px) and (max-width: 1440px) {
+  .corner{
+    width: 10cap;
+    height: 10cap;
+  }
+
+  .cards {
+    position: absolute;
+    top: 100%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 426px) {
+  .board{
+    position: unset;
+  }
   .center {
     display: none; /* quitamos la imagen del centro en móvil */
   }
-
-  .board {
+    .board {
     display: flex;
     flex-direction: column; /* apila vertical */
     align-items: center;
     width: 100%;
     height: auto;
   }
-
   /* 🔹 todas las casillas ocultas por defecto */
   .board .cell {
     width: 80px;   /* tamaño fijo para las casillas en móvil */
