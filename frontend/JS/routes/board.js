@@ -1,7 +1,7 @@
 import { renderBoard } from "../components/infoBoard.js";
 import { decorateBoard, renderEmptyBoard } from "../components/boardRender.js";
 import { initDice } from "../components/dice.js";
-import { renderAllTokens } from "../controllers/motion.js";
+import { renderAllTokens, restoreOwnedProperties } from "../controllers/motion.js";
 import { setBoardData } from "../components/showToolTip.js";
 import { fetchBoard } from "../services/boardServices.js";
 import { getCellInfoById } from "../components/infoCell.js";
@@ -23,4 +23,5 @@ document.addEventListener("DOMContentLoaded", async () => {
  
 
   renderAllTokens()
+  restoreOwnedProperties()
 });
