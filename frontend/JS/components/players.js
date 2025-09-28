@@ -40,11 +40,11 @@ export function renderPlayerContainers(containerId, currentPlayerIndex) {
 
 export function renderCardPlayer(player) {
   return `
-  <div class="container py-3">
-    <div class="card shadow-sm" style="max-width: 320px; min-width: 270px;">
+  <div class="container ">
+    <div class="card shadow-sm" style="max-width: 300px; min-width: 270px;">
       <div class="card-body">
         <div class="mb-2">
-          <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${player.color};margin-left:8px;border:2px solid #222;vertical-align:middle;"></span>
+          <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${player.color};border:2px solid #222;vertical-align:middle;"></span>
         </div>
         <h5 class="card-title text-primary">
           ${player.name}
@@ -71,9 +71,6 @@ export function renderCardPlayer(player) {
           <div class="col-6 d-grid">
             <button class="btn btn-success btn-deshipotecar" type="button">Deshipotecar</button>
           </div>
-        </div>
-        <button class="btn btn-primary w-100">Acción</button>
-      </div>
     </div>
   </div>
   `;

@@ -19,6 +19,7 @@
 
     .navbar {
       background: linear-gradient(90deg, #006400, #228B22); /* Verde Monopoly */
+      width: 100%;
     }
     .navbar .navbar-brand, .navbar .nav-link {
       color: white !important;
@@ -48,16 +49,7 @@
       margin-right: 5px;
     }
     /* Cards laterales */
-    .info-card, #player {
-      background: #fff;
-      border: 2px solid #006400;
-      border-radius: 12px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
-    }
-    .info-card h5, #player h5 {
-      color: #006400;
-      font-weight: bold;
-    }
+
   </style>
 </head>
 <body>
@@ -94,14 +86,14 @@
   </div>
 
   <!-- Layout con tablero y cards -->
-<div class="container-fluid d-flex mt-4">
+<div class="container-fluid d-flex">
   <!-- Lateral Izquierdo -->
   <div class="cards">
-    <div id="player" class="card p-3 text-center">
+    <div id="player" class="player text-center">
       <h5>👤 Jugadores</h5>
       <p>Aquí aparecerán los jugadores</p>
     </div>
-    <div id="cell-info-card" class="info-card hidden card p-3 text-center">
+    <div id="cell-info-card" class="info-card hidden card text-center">
       <h5>📍 Información de casilla</h5>
     </div>
   </div>
