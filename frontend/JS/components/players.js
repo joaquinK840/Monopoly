@@ -59,6 +59,7 @@ export function renderCardPlayer(player) {
         <div class="mb-3">
           <label for="propiedades" class="form-label fw-bold">Propiedades:</label>
           <select class="form-select" id="propiedades">
+          <option selected disabled>Selecciona una propiedad</option>
           ${player.properties && player.properties.length > 0 
             ? player.properties.map(p => `<option value="${p.id}">${p.name}${p.mortgaged ? ' (Hipotecada)' : ''}</option>`).join("") 
             : `<option selected disabled>No tienes propiedades</option>`}
@@ -81,22 +82,34 @@ export function hipotecarPropiedad(player, propId) {
   const propiedad = player.properties.find(p => p.id == propId);
   if (!propiedad) return alert("Selecciona una propiedad válida");
   if (propiedad.mortgaged) return alert("La propiedad ya está hipotecada");
+  console.log("id: " + propId)
+  console.log("players" + player)
+  console.log("propiedades" + propiedad)
+  console.log("hotel" + propiedad.hotel)
+  console.log("casas: "+ propiedad.houses)
 
-  // Precio seguro como número
-  console.log(propiedad.price);
-  let precio = parseInt(propiedad.price) || 0;
-  if (precio <= 0) {
-    return alert("La propiedad no tiene un precio válido para hipotecar");
+  
+  // ✅ CAMBIO NUEVO:
+  // ✅ CAMBIO: bloquear solo si la propiedad seleccionada tiene casas u hotel
+  if ((propiedad.houses > 0) || propiedad.hotel) {
+    return alert("No puedes hipotecar una propiedad que tenga casas u hotel.");
   }
+  
+    // Precio seguro como número
+    let precio = parseInt(propiedad.price) || 0;
+    if (precio <= 0) {
+      return alert("La propiedad no tiene un precio válido para hipotecar");
+    }
 
-  let valorHipoteca = Math.floor(precio / 2);
-  let saldo = parseInt(player.money) || 0;
+    let valorHipoteca = Math.floor(precio / 2);
+    let saldo = parseInt(player.money) || 0;
 
-  saldo += valorHipoteca;
-  player.money = saldo;
-  propiedad.mortgaged = true;
+    saldo += valorHipoteca;
+    player.money = saldo;
+    propiedad.mortgaged = true;
 
-  alert(`Hipotecaste ${propiedad.name}. Recibes $${valorHipoteca}`);
+    alert(`Hipotecaste ${propiedad.name}. Recibes $${valorHipoteca}`);
+  
 }
 
 // Lógica deshipotecar
