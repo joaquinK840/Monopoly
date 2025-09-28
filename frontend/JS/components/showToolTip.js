@@ -104,8 +104,8 @@ function buyProperty(cell) {
     mortgaged: false,
     houses: 0,
     hotel: false,
-    withHouse: cell.rent.withHouse,
-    withHotel: cell.rent.withHotel,
+    withHouse: cell.rent?.withHouse || [],
+    withHotel: cell.rent?.withHotel || 0,
   });
 
   // 6. Actualizar el sessionStorage
@@ -328,4 +328,60 @@ function calculateRent(cell, propiedad) {
   console.log(rent)
 
   return rent;
+
+  
 }
+
+import { saveUser } from "../services/scoreService.js"; // importa tu servicio
+
+export async function acabarJuego() {
+  let players = JSON.parse(sessionStorage.getItem("players") || "[]");
+  console.log("Jugadores al finalizar:", players);
+
+  if (!players.length) {
+    console.error("No hay jugadores en la partida.");
+    return;
+  }
+
+  players = players.map(player => {
+    let total = player.money;
+
+    player.properties.forEach(prop => {
+      if (prop.mortgaged) {
+        total -= prop.price || 0; // restamos hipotecadas
+        console.log("Propiedad hipotecada:", prop.name);
+      } else {
+        total += prop.price || 0; // sumamos propiedad
+        console.log("Propiedad sumada:", prop.name);
+        console.log("Precio propiedad:", prop.price);
+
+        if (prop.houses && prop.houses > 0) {
+          total += prop.houses * 100; // cada casa vale 100
+        }
+
+        if (prop.hotel) {
+          total += 250; // cada hotel vale 250
+        }
+      }
+    });
+
+    return { ...player, finalScore: total };
+  });
+
+  // Guardamos scores finales en sessionStorage
+  sessionStorage.setItem("players", JSON.stringify(players));
+  console.log("✅ Scores finales calculados:", players);
+
+  // Enviar cada jugador al backend
+  for (const player of players) {
+    try {
+      await saveUser(player.name, player.country, player.finalScore);
+      console.log(`✔ Puntaje enviado de ${player.name}: ${player.finalScore}`);
+    } catch (err) {
+      console.error(`❌ Error guardando score de ${player.name}:`, err);
+    }
+  }
+
+  alert("El juego ha terminado. Los puntajes finales han sido enviados.");
+}
+

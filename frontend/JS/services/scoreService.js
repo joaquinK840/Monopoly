@@ -1,15 +1,15 @@
-
 const API_URL = "http://127.0.0.1:5000/score-recorder";
 
 /**
- * Guarda un usuario en el backend con score inicial 0.
+ * Guarda un usuario en el backend con score definido.
  * @param {string} username - nombre del jugador
  * @param {string} countryCode - código del país (ej: "co")
+ * @param {number} score - puntaje inicial del jugador
  */
-export async function saveUser(username, countryCode) {
+export async function saveUser(username, countryCode, score) {
   const payload = {
     nick_name: String(username).trim(),
-    score: 0,
+    score: Number(score) || 0, // usa el score recibido, si viene vacío se pone 0
     country_code: String(countryCode).trim().toLowerCase(),
   };
 
@@ -39,26 +39,6 @@ export async function saveUser(username, countryCode) {
     return parsed;
   } catch (err) {
     console.error("❌ saveUser error:", err);
-    throw err;
-  }
-}
-
-export async function getAllUsers() {
-  try {
-    const res = await fetch(API_URL, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || "Error al obtener usuarios");
-    }
-
-    const data = await res.json();
-    return data; // objeto con los usuarios
-  } catch (err) {
-    console.error("❌ getAllUsers error:", err);
     throw err;
   }
 }

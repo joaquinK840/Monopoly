@@ -135,6 +135,6 @@ export function deshipotecarPropiedad(player, propId) {
 
   propiedad.mortgaged = false;
   player.money = saldo - costo;
-
++
   alert(`Deshipotecaste ${propiedad.name}. Pagaste $${costo}`);
 }

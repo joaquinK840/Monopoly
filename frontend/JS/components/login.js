@@ -94,7 +94,8 @@ export function setupLogin() {
       }
 
       try {
-        await saveUser(username, country);
+        const score = 0; // Puntaje inicial
+        await saveUser(username, country,score);
 
         if (!players.some(p => p.name === username)) {
           // Asignar color automático
@@ -146,3 +147,4 @@ export function getPlayers() {
 }
 
 console.log("Jugadores en sesión:", getPlayersCount());
+console.log("Datos de sesión:", getPlayers());
