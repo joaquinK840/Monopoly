@@ -5,6 +5,7 @@ import { renderAllTokens } from "../controllers/motion.js";
 import { setBoardData } from "../components/showToolTip.js";
 import { fetchBoard } from "../services/boardServices.js";
 import { getCellInfoById } from "../components/infoCell.js";
+import { initResponsiveCards } from "../../utils/responsiveCards.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -15,8 +16,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const boardData = await fetchBoard();
   renderBoard(boardData); // mostrar tablero
   decorateBoard(boardData);
+   initResponsiveCards();
   getCellInfoById(boardData);
   setBoardData(boardData); // inyectar datos del tablero para tooltips
+
+ 
 
   renderAllTokens()
 });

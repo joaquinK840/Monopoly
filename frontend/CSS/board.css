@@ -11,7 +11,7 @@ body {
   width: 90vmin;
   height: 90vmin;
   border: 2px solid black;
-  margin: auto;
+  margin-left: 0ch;
   margin-top: 1.5%;
   position: relative; /* clave para que se pueda usar absolute en las cards */
 }
@@ -136,11 +136,13 @@ body {
 
 /* Tooltip */
 
-.cards{
+.cards {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  flex-direction: column; /* por defecto, apiladas (PC grande) */
+  gap: 10px;
+  max-width: 350px;
 }
+
 .info-card.hidden {
   display: none;
 }
@@ -153,30 +155,40 @@ body {
 /* ================== MEDIA QUERIES ================== */
 
 
-@media (min-width: 768px) and (max-width: 1440px) {
-  .corner{
-    width: 10cap;
-    height: 10cap;
+
+
+/* Tablet */
+@media (min-width: 625px) and (max-width: 1024px) {
+  .center {
+    position: relative; /* referencia para el absolute */
   }
 
   .cards {
     position: absolute;
-    top: 100%;
-    left: 55%;
-    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centro exacto */
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+    flex-direction: row; /* una al lado de la otra */
+    gap: 15px;
     z-index: 10;
+    max-width: none; /* liberar ancho para que puedan estar lado a lado */
+    background: rgba(255, 255, 255, 0.8); /* fondo semitransparente */
+    min-height: 150px;
+    padding: 0.8rem;
+
+  }
+  .corner{
+    width: 9cap;
+    height: 9cap;
   }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 625px) {
   .board{
     position: unset;
   }
-  .center {
+  .center img {
     display: none; /* quitamos la imagen del centro en móvil */
   }
     .board {

@@ -179,20 +179,20 @@ function getExtraInfo(cellInfo, players) {
     if (propiedad && propiedad.mortgaged) {
       return `
         <p><strong>Propiedad hipotecada:</strong> ${propiedad.name}</p>
-        <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+        <p><strong>Propiedad de:</strong> ${owner.name}</p>
         <p><em>No genera renta</em></p>
       `;
     }
     if (owner.name !== currentPlayer.name) {
       return `
         <p><strong>Precio de Renta:</strong> ${cellInfo.rent.base}</p>
-        <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+        <p><strong>Propiedad de:</strong> ${owner.name}</p>
         <button id="pay-rent-btn" class="btn btn-warning text-white">Pagar renta</button>
       `;
     }
     return `
       <p><strong>Precio de Renta:</strong> ${cellInfo.rent.base}</p>
-      <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>
+      <p><strong>Propiedad de:</strong> ${owner.name}</p>
     `;
   }
 
