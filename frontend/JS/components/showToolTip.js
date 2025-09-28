@@ -105,11 +105,16 @@ function buyProperty(cell) {
     houses: 0,
     hotel: false,
     withHouse: cell.rent.withHouse,
-    withHotel: cell.rent.withHotel
+    withHotel: cell.rent.withHotel,
   });
 
   // 6. Actualizar el sessionStorage
   sessionStorage.setItem("players", JSON.stringify(players));
+
+  const cellEl = document.getElementById(`cell-${cell.id}`);
+  if (cellEl) {
+    cellEl.style.outline = `3px solid ${currentPlayer.color}`;
+  }
 
   // 7. Volver a renderizar la card del jugador actual
   const container = document.getElementById("player");
@@ -214,7 +219,7 @@ function buildHotel(cell) {
   if (currentPlayer.money < cost) return alert("No tienes suficiente dinero para construir un hotel.");
 
   currentPlayer.money -= cost;
-  //propiedad.houses = 0;
+  propiedad.houses = 0;
   propiedad.hotel = true;
 
   alert(`Construiste un hotel en ${propiedad.name}.`);

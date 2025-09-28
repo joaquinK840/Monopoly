@@ -152,6 +152,21 @@ body {
   height: auto;  /* mantiene la proporción */
 }
 
+.player-token {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px; /* cuadrado con esquinas redondeadas */
+  border: 2px solid #222;
+  position: relative; /* para que se acomoden dentro de la celda */
+  margin: 2px;
+}
+
+.owner-mark {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
 /* ================== MEDIA QUERIES ================== */
 
 

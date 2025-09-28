@@ -8,9 +8,15 @@ let jailStatus = []; // Estado de cárcel por jugador
 
 // Crear el div de la ficha
 function createTokenElement(playerIndex) {
+  const players = JSON.parse(sessionStorage.getItem("players")) || [];
+  const player = players[playerIndex];
+
   const token = document.createElement("div");
   token.id = `player-token-${playerIndex}`;
-  token.textContent = "🏃";
+  token.classList.add("player-token");
+  if (player && player.color) {
+    token.style.backgroundColor = player.color; // Color propio del jugador
+  }
   return token;
 }
 
@@ -113,4 +119,29 @@ export function moveToken(dice1, dice2) {
   renderPlayerContainers(container, currentPlayerIndex);
   currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
   highlightSection(currentPosition);
+}
+
+export function restoreOwnedProperties() {
+  const players = JSON.parse(sessionStorage.getItem("players")) || [];
+
+  players.forEach(player => {
+    if (player.properties && player.properties.length > 0) {
+      player.properties.forEach(prop => {
+        const cell = document.getElementById(`cell-${prop.id}`);
+        if (cell) {
+          // Crear un marcador visual del dueño
+          let ownerMark = cell.querySelector(".owner-mark");
+          if (!ownerMark) {
+            ownerMark = document.createElement("div");
+            ownerMark.className = "owner-mark rounded-circle border border-dark";
+            ownerMark.style.width = "16px";
+            ownerMark.style.height = "16px";
+            ownerMark.style.background = player.color;
+            ownerMark.title = `Propiedad de ${player.name}`;
+            cell.appendChild(ownerMark);
+          }
+        }
+      });
+    }
+  });
 }
