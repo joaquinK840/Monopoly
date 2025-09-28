@@ -15,7 +15,11 @@ export function initResponsiveCards() {
         center.appendChild(cards);
       }
     }
+      else{
+      return console.log("No es tablet");
+    }
   }
+
 
   // Ejecutar al inicio y cuando cambie el tamaño
   relocateCards();

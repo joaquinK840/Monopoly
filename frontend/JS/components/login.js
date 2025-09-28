@@ -67,7 +67,6 @@ export function setupLogin() {
 
   function refreshGoBoard() {
     const goBtn = document.querySelector(".goBoard");
-    if (goBtn) goBtn.disabled = players.length < 2; 
   }
 
   forms.forEach((form) => {
@@ -127,10 +126,15 @@ export function setupLogin() {
       container.appendChild(wrapper);
 
       const goBtn = wrapper.querySelector(".goBoard");
+      const notyf = new Notyf({
+        duration: 3000,
+        ripple: true,
+        position: { x: 'right', y: 'top' }
+      });
       goBtn.addEventListener("click", () => {
         players = JSON.parse(sessionStorage.getItem("players") || "[]");
         if (players.length < 2) {
-          alert("Necesitas al menos 2 jugadores para continuar");
+          notyf.error("Necesitas al menos 2 jugadores para continuar");
           return;
         }
         window.location.href = "./board.html";

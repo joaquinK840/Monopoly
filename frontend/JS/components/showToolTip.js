@@ -1,6 +1,11 @@
 import { getCellInfoById } from "../components/infoCell.js"; // para buscar info de la celda
 import { renderPlayerContainers } from "./players.js";
 
+const notyf = new Notyf({
+  duration: 3000,
+  ripple: true,
+  position: { x: 'right', y: 'top' }
+});
 let boardData = null; // guardaremos el JSON del tablero
 let currentPlayerIndex = 0; // vamos a sincronizarlo con board.js
 
@@ -81,13 +86,13 @@ function buyProperty(cell) {
   // 2. Verificar si ya tiene la propiedad
   const alreadyOwned = currentPlayer.properties.some(p => p.id === cell.id);
   if (alreadyOwned) {
-    alert("Ya tienes esta propiedad");
+    notyf.error("Ya tienes esta propiedad");
     return;
   }
 
   // 3. Validar dinero suficiente
   if (cell.price && currentPlayer.money < cell.price) {
-    alert("No tienes suficiente dinero para comprar esta propiedad");
+    notyf.error("No tienes suficiente dinero para comprar esta propiedad");
     return;
   }
 
@@ -136,12 +141,12 @@ function payRent(cell) {
   );
 
   if (!owner) {
-    alert("Esta propiedad no tiene dueño.");
+    notyf.error("Esta propiedad no tiene dueño.");
     return;
   }
 
   if (owner.name === currentPlayer.name) {
-    alert("Eres el dueño, no pagas renta.");
+    notyf.error("Eres el dueño, no pagas renta.");
     return;
   }
 
@@ -150,7 +155,7 @@ function payRent(cell) {
 
   // Verificar si está hipotecada
   if (propiedad && propiedad.mortgaged) {
-    alert(`La propiedad ${propiedad.name} está hipotecada, no pagas renta.`);
+    notyf.error(`La propiedad ${propiedad.name} está hipotecada, no pagas renta.`);
     return;
   }
 
@@ -159,7 +164,7 @@ function payRent(cell) {
   
   // Validar dinero suficiente
   if (currentPlayer.money < rent) {
-    alert("No tienes suficiente dinero para pagar la renta.");
+    notyf.error("No tienes suficiente dinero para pagar la renta.");
     return;
   }
 
@@ -167,7 +172,7 @@ function payRent(cell) {
   currentPlayer.money -= rent;
   owner.money += rent;
 
-  alert(`Pagaste $${rent} de renta a ${owner.name}`);
+  notyf.success(`Pagaste $${rent} de renta a ${owner.name}`);
 
   // Guardar cambios
   sessionStorage.setItem("players", JSON.stringify(players));
@@ -184,18 +189,18 @@ function buildHouse(cell) {
   const currentPlayer = players[currentPlayerIndex];
   const propiedad = currentPlayer.properties.find(p => p.id === cell.id);
 
-  if (!propiedad) return alert("No posees esta propiedad.");
-  if (propiedad.mortgaged) return alert("No puedes construir en una propiedad hipotecada.");
-  if (propiedad.hotel) return alert("Ya hay un hotel en esta propiedad.");
-  if (propiedad.houses >= 4) return alert("Debes construir un hotel después de 4 casas.");
+  if (!propiedad) return notyf.error("No posees esta propiedad.");
+  if (propiedad.mortgaged) return notyf.error("No puedes construir en una propiedad hipotecada.");
+  if (propiedad.hotel) return notyf.error("Ya hay un hotel en esta propiedad.");
+  if (propiedad.houses >= 4) return notyf.error("Debes construir un hotel después de tener 4 casas.");
 
   const cost = 100;
-  if (currentPlayer.money < cost) return alert("No tienes suficiente dinero para construir una casa.");
+  if (currentPlayer.money < cost) return notyf.error("No tienes suficiente dinero para construir una casa.");
 
   currentPlayer.money -= cost;
   propiedad.houses += 1;
 
-  alert(`Construiste una casa en ${propiedad.name}. Ahora tiene ${propiedad.houses} casas.`);
+  notyf.success(`Construiste una casa en ${propiedad.name}. Ahora tiene ${propiedad.houses} casas.`);
 
   sessionStorage.setItem("players", JSON.stringify(players));
   console.log(players)
@@ -210,19 +215,19 @@ function buildHotel(cell) {
   const currentPlayer = players[currentPlayerIndex];
   const propiedad = currentPlayer.properties.find(p => p.id === cell.id);
 
-  if (!propiedad) return alert("No posees esta propiedad.");
-  if (propiedad.mortgaged) return alert("No puedes construir en una propiedad hipotecada.");
-  if (propiedad.hotel) return alert("Ya existe un hotel en esta propiedad.");
-  if (propiedad.houses < 4) return alert("Debes tener 4 casas antes de construir un hotel.");
+  if (!propiedad) return notyf.error("No posees esta propiedad.");
+  if (propiedad.mortgaged) return notyf.error("No puedes construir en una propiedad hipotecada.");
+  if (propiedad.hotel) return notyf.error("Ya existe un hotel en esta propiedad.");
+  if (propiedad.houses < 4) return notyf.error("Debes tener 4 casas antes de construir un hotel.");
 
   const cost = 250;
-  if (currentPlayer.money < cost) return alert("No tienes suficiente dinero para construir un hotel.");
+  if (currentPlayer.money < cost) return notyf.error("No tienes suficiente dinero para construir un hotel.");
 
   currentPlayer.money -= cost;
   propiedad.houses = 0;
   propiedad.hotel = true;
 
-  alert(`Construiste un hotel en ${propiedad.name}.`);
+  notyf.success(`Construiste un hotel en ${propiedad.name}.`);
 
   sessionStorage.setItem("players", JSON.stringify(players));
   const container = document.getElementById("player");
@@ -381,7 +386,5 @@ export async function acabarJuego() {
       console.error(`❌ Error guardando score de ${player.name}:`, err);
     }
   }
-
-  alert("El juego ha terminado. Los puntajes finales han sido enviados.");
 }
 

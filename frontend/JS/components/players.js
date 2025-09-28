@@ -77,11 +77,17 @@ export function renderCardPlayer(player) {
   `;
 }
 
+const notyf = new Notyf({
+  duration: 3000,
+  ripple: true,
+  position: { x: 'right', y: 'top' }
+});
+
 // Lógica hipotecar
 export function hipotecarPropiedad(player, propId) {
   const propiedad = player.properties.find(p => p.id == propId);
-  if (!propiedad) return alert("Selecciona una propiedad válida");
-  if (propiedad.mortgaged) return alert("La propiedad ya está hipotecada");
+  if (!propiedad) return notyf.error("Selecciona una propiedad válida");
+  if (propiedad.mortgaged) return notyf.error("La propiedad ya está hipotecada");
   console.log("id: " + propId)
   console.log("players" + player)
   console.log("propiedades" + propiedad)
@@ -92,13 +98,13 @@ export function hipotecarPropiedad(player, propId) {
   // ✅ CAMBIO NUEVO:
   // ✅ CAMBIO: bloquear solo si la propiedad seleccionada tiene casas u hotel
   if ((propiedad.houses > 0) || propiedad.hotel) {
-    return alert("No puedes hipotecar una propiedad que tenga casas u hotel.");
+    return notyf.error("No puedes hipotecar una propiedad que tenga casas u hotel.");
   }
   
     // Precio seguro como número
     let precio = parseInt(propiedad.price) || 0;
     if (precio <= 0) {
-      return alert("La propiedad no tiene un precio válido para hipotecar");
+      return notyf.error("La propiedad no tiene un precio válido para hipotecar");
     }
 
     let valorHipoteca = Math.floor(precio / 2);
@@ -108,7 +114,7 @@ export function hipotecarPropiedad(player, propId) {
     player.money = saldo;
     propiedad.mortgaged = true;
 
-    alert(`Hipotecaste ${propiedad.name}. Recibes $${valorHipoteca}`);
+    notyf.success(`Hipotecaste ${propiedad.name}. Recibes $${valorHipoteca}`);
   
 }
 
@@ -116,13 +122,13 @@ export function hipotecarPropiedad(player, propId) {
 export function deshipotecarPropiedad(player, propId) {
   const propiedad = player.properties.find(p => p.id == propId);
   console.log(propiedad);
-  if (!propiedad) return alert("Selecciona una propiedad válida");
-  if (!propiedad.mortgaged) return alert("La propiedad no está hipotecada");
+  if (!propiedad) return notyf.error("Selecciona una propiedad válida");
+  if (!propiedad.mortgaged) return notyf.error("La propiedad no está hipotecada");
 
   // Precio seguro como número
   let precio = parseInt(propiedad.price) || 0;
   if (precio <= 0) {
-    return alert("La propiedad no tiene un precio válido para deshipotecar");
+    return notyf.error("La propiedad no tiene un precio válido para deshipotecar");
   }
 
   let valorHipoteca = Math.floor(precio / 2);
@@ -130,11 +136,11 @@ export function deshipotecarPropiedad(player, propId) {
   let saldo = parseInt(player.money) || 0;
 
   if (saldo < costo) {
-    return alert(`No tienes suficiente dinero para deshipotecar. Necesitas $${costo}`);
+    return notyf.error(`No tienes suficiente dinero para deshipotecar. Necesitas $${costo}`);
   }
 
   propiedad.mortgaged = false;
   player.money = saldo - costo;
 +
-  alert(`Deshipotecaste ${propiedad.name}. Pagaste $${costo}`);
+  notyf.success(`Deshipotecaste ${propiedad.name}. Pagaste $${costo}`);
 }

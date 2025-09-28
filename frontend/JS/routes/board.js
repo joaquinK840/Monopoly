@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    initResponsiveCards();
   getCellInfoById(boardData);
   setBoardData(boardData); // inyectar datos del tablero para tooltips
+  
 
     const finBtn = document.getElementById("btn-fin");
     if (finBtn) {
