@@ -19,6 +19,7 @@ export function setCurrentPlayerIndex(idx) {
   currentPlayerIndex = idx;
 }
 
+
 export function showTooltip(cellId) {
   if (!boardData) return console.error("boardData no está definido");
 
@@ -51,10 +52,12 @@ export function showTooltip(cellId) {
     testBtn.addEventListener("click", () => buyProperty(cellInfo));
   }
 
+  
   // Botón de pagar renta
   const payRentBtn = document.getElementById("pay-rent-btn");
   if (payRentBtn) {
     payRentBtn.addEventListener("click", () => payRent(cellInfo));
+    
   }
 
   // Botón construir casa
@@ -134,6 +137,7 @@ function buyProperty(cell) {
 }
 
 // función para pagar renta
+export let mustPayRent = false; // 🚨 indica si el jugador debe pagar renta
 function payRent(cell) {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
   const currentPlayer = players[currentPlayerIndex];
@@ -329,6 +333,7 @@ function getExtraInfo(cellInfo, players) {
     }
 
     if (owner.name !== currentPlayer.name) {
+       mustPayRent = true; // 🚨 bloquear dados
       return `
         <p><strong>Precio de Renta:</strong> ${rentaActual}</p>
         <p><strong>Propiedad perteneciente a:</strong> ${owner.name}</p>

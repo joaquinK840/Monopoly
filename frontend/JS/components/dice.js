@@ -1,16 +1,38 @@
 // Lógica para ingreso manual de dados
+import { moveToken } from "../controllers/motion.js";
+import { mustPayRent } from "../components/showToolTip.js"; // 🚨 importar la bandera
+
+
+const notyf = new Notyf({
+  duration: 3000,
+  ripple: true,
+  position: { x: "right", y: "top" }
+});
+
+
 export function lanzarDadosManual() {
+  if (mustPayRent) {
+    notyf.error("⚠️ Debes pagar la renta antes de lanzar los dados.");
+    return;
+  }
+
   const val1 = parseInt(document.getElementById('input-dado1').value);
   const val2 = parseInt(document.getElementById('input-dado2').value);
 
-  // Mostrar el resultado sin importar el rango
+  // 🚨 Validar que no sean NaN
+  if (isNaN(val1) || isNaN(val2)) {
+    notyf.error("❌ Debes ingresar números en ambos dados.");
+    return;
+  }
+
+  // Mostrar el resultado
   mostrarResultadoDados(val1, val2);
 
   // 🚨 Mover token con los valores ingresados
   moveToken(val1, val2);
 }
 
-import { moveToken } from "../controllers/motion.js";
+
 
 function crearDadoHTML(valor) {
   const puntos = [
@@ -34,6 +56,11 @@ function crearDadoHTML(valor) {
 }
 
 export function lanzarDados() {
+    if (mustPayRent) {
+    notyf.error("⚠️ Debes pagar la renta antes de lanzar los dados.");
+    return;
+  }
+
   const dado1 = Math.floor(Math.random() * 6) + 1;
   const dado2 = Math.floor(Math.random() * 6) + 1;
   mostrarResultadoDados(dado1, dado2);
