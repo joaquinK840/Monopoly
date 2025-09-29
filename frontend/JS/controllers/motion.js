@@ -65,10 +65,12 @@ function highlightSection(currentPosition) {
 }
 
 // Mover ficha según los dados
+// Mover ficha según los dados
 export function moveToken(dice1, dice2) {
   const steps = dice1 + dice2;
   const playersCount = getPlayersCount();
   let currentPosition = playerPositions[currentPlayerIndex];
+  const oldPosition = currentPosition; // ⬅ guardamos antes de mover
 
   // Inicializar notificaciones bonitas
   const notyf = new Notyf({
@@ -77,26 +79,28 @@ export function moveToken(dice1, dice2) {
     position: { x: 'right', y: 'top' }
   });
 
-  // Si el jugador está en la cárcel
+  // ================== LÓGICA DE CÁRCEL ==================
   if (jailStatus[currentPlayerIndex]) {
     if (dice1 === dice2) {
       jailStatus[currentPlayerIndex] = false;
       notyf.success("🎲 ¡Sacaste dobles y sales de la cárcel!");
       currentPosition = (currentPosition + steps) % 40;
     } else {
-      // Preguntar si quiere pagar $50
       const pagar = confirm("¿Quieres pagar $50 para salir de la cárcel?");
       if (pagar) {
         let players = JSON.parse(sessionStorage.getItem("players") || "[]");
         jailStatus[currentPlayerIndex] = false;
         players[currentPlayerIndex].money -= 50;
+        sessionStorage.setItem("players", JSON.stringify(players)); // ⬅ guardar cambio
         notyf.success("💸 Pagaste $50 y sales de la cárcel.");
         currentPosition = (currentPosition + steps) % 40;
       } else {
         jailStatus[currentPlayerIndex]++;
         if (jailStatus[currentPlayerIndex] > 3) {
+          let players = JSON.parse(sessionStorage.getItem("players") || "[]");
           notyf.error("⏳ No sacaste dobles en 3 turnos. Pagas $50 y sales.");
           players[currentPlayerIndex].money -= 50;
+          sessionStorage.setItem("players", JSON.stringify(players)); // ⬅ guardar cambio
           jailStatus[currentPlayerIndex] = false;
           currentPosition = (currentPosition + steps) % 40;
         } else {
@@ -109,7 +113,7 @@ export function moveToken(dice1, dice2) {
       }
     }
   } else {
-    // Si cae en la casilla 30, va a la cárcel
+    // ================== LÓGICA DE MOVIMIENTO NORMAL ==================
     if (currentPosition === 30) {
       notyf.error("🚨 ¡Vas a la cárcel!");
       currentPosition = 10;
@@ -119,13 +123,20 @@ export function moveToken(dice1, dice2) {
     }
   }
 
+  // ================== BONO POR SALIDA ==================
+  if ((oldPosition + steps) > 39 || currentPosition === 0) {
+    let players = JSON.parse(sessionStorage.getItem("players") || "[]");
+    players[currentPlayerIndex].money += 200;
+    sessionStorage.setItem("players", JSON.stringify(players));
+    notyf.success(`💰 ${players[currentPlayerIndex].name} recibe $200 por pasar por la salida`);
+  }
 
+  // ================== ACTUALIZACIÓN DE POSICIÓN ==================
   playerPositions[currentPlayerIndex] = currentPosition;
 
-  // Mover ficha correspondiente
+  // Mover ficha en el DOM
   const tokenId = `player-token-${currentPlayerIndex}`;
   const token = document.getElementById(tokenId);
-
   if (token) {
     const targetCell = document.getElementById(`cell-${currentPosition}`);
     targetCell.appendChild(token);
