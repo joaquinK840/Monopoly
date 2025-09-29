@@ -70,54 +70,54 @@ export function moveToken(dice1, dice2) {
   const playersCount = getPlayersCount();
   let currentPosition = playerPositions[currentPlayerIndex];
 
-// Inicializar notificaciones bonitas
-const notyf = new Notyf({
-  duration: 3000,
-  ripple: true,
-  position: { x: 'right', y: 'top' }
-});
+  // Inicializar notificaciones bonitas
+  const notyf = new Notyf({
+    duration: 3000,
+    ripple: true,
+    position: { x: 'right', y: 'top' }
+  });
 
-// Si el jugador está en la cárcel
-if (jailStatus[currentPlayerIndex]) {
-  if (dice1 === dice2) {
-    jailStatus[currentPlayerIndex] = false;
-    notyf.success("🎲 ¡Sacaste dobles y sales de la cárcel!");
-    currentPosition = (currentPosition + steps) % 40;
-  } else {
-    // Preguntar si quiere pagar $50
-    const pagar = confirm("¿Quieres pagar $50 para salir de la cárcel?");
-    if (pagar) {
-      let players = JSON.parse(sessionStorage.getItem("players") || "[]");
+  // Si el jugador está en la cárcel
+  if (jailStatus[currentPlayerIndex]) {
+    if (dice1 === dice2) {
       jailStatus[currentPlayerIndex] = false;
-      players[currentPlayerIndex].money -= 50;
-      notyf.success("💸 Pagaste $50 y sales de la cárcel.");
+      notyf.success("🎲 ¡Sacaste dobles y sales de la cárcel!");
       currentPosition = (currentPosition + steps) % 40;
     } else {
-      jailStatus[currentPlayerIndex]++;
-      if (jailStatus[currentPlayerIndex] > 3) {
-        notyf.error("⏳ No sacaste dobles en 3 turnos. Pagas $50 y sales.");
-        players[currentPlayerIndex].money -= 50;
+      // Preguntar si quiere pagar $50
+      const pagar = confirm("¿Quieres pagar $50 para salir de la cárcel?");
+      if (pagar) {
+        let players = JSON.parse(sessionStorage.getItem("players") || "[]");
         jailStatus[currentPlayerIndex] = false;
+        players[currentPlayerIndex].money -= 50;
+        notyf.success("💸 Pagaste $50 y sales de la cárcel.");
         currentPosition = (currentPosition + steps) % 40;
       } else {
-        notyf.error(`🚔 Estás en la cárcel. Intento ${jailStatus[currentPlayerIndex]}/3.`);
-        playerPositions[currentPlayerIndex] = 10;
-        currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
-        highlightSection(10);
-        return;
+        jailStatus[currentPlayerIndex]++;
+        if (jailStatus[currentPlayerIndex] > 3) {
+          notyf.error("⏳ No sacaste dobles en 3 turnos. Pagas $50 y sales.");
+          players[currentPlayerIndex].money -= 50;
+          jailStatus[currentPlayerIndex] = false;
+          currentPosition = (currentPosition + steps) % 40;
+        } else {
+          notyf.error(`🚔 Estás en la cárcel. Intento ${jailStatus[currentPlayerIndex]}/3.`);
+          playerPositions[currentPlayerIndex] = 10;
+          currentPlayerIndex = (currentPlayerIndex + 1) % playersCount;
+          highlightSection(10);
+          return;
+        }
       }
     }
-  }
-} else {
-  // Si cae en la casilla 30, va a la cárcel
-  if (currentPosition === 30) {
-    notyf.error("🚨 ¡Vas a la cárcel!");
-    currentPosition = 10;
-    jailStatus[currentPlayerIndex] = 1; // primer turno en la cárcel
   } else {
-    currentPosition = (currentPosition + steps) % 40;
+    // Si cae en la casilla 30, va a la cárcel
+    if (currentPosition === 30) {
+      notyf.error("🚨 ¡Vas a la cárcel!");
+      currentPosition = 10;
+      jailStatus[currentPlayerIndex] = 1; // primer turno en la cárcel
+    } else {
+      currentPosition = (currentPosition + steps) % 40;
+    }
   }
-}
 
 
   playerPositions[currentPlayerIndex] = currentPosition;
