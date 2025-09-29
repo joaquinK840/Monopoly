@@ -24,6 +24,8 @@ export function showTooltip(cellId) {
 
   const card = document.getElementById("cell-info-card");
   const cellInfo = getCellInfoById(boardData, cellId);
+  console.log(cellInfo)
+  console.log(boardData)
 
   if (!cellInfo) {
     card.classList.add("hidden");
@@ -65,6 +67,11 @@ export function showTooltip(cellId) {
   const buildHotelBtn = document.getElementById("build-hotel-btn");
   if (buildHotelBtn) {
     buildHotelBtn.addEventListener("click", () => buildHotel(cellInfo));
+  }
+
+  // Cards de sorpesa y caja de comunidad
+  if (cellInfo.type === "chance" || cellInfo.type === "community_chest" || cellInfo.type === "tax") {
+    drawCard(cellInfo, players);
   }
 
   card.classList.remove("hidden");
@@ -126,6 +133,7 @@ function buyProperty(cell) {
   renderPlayerContainers(container, currentPlayerIndex);
 }
 
+// función para pagar renta
 function payRent(cell) {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
   const currentPlayer = players[currentPlayerIndex];
@@ -180,10 +188,61 @@ function payRent(cell) {
   // Actualizar tablero y cartas
   const container = document.getElementById("player");
   renderPlayerContainers(container, currentPlayerIndex);
-
-  // Habilitar nuevamente el dado (desbloquear turno)
 }
 
+//Función para casillas especiales, casilla de comunidad y impuestos
+function drawCard(cellInfo, players) {
+  if (!boardData) return console.error("boardData no está definido");
+
+  let key = null;
+  if (cellInfo.type === "chance") {
+    key = "chance";
+  } else if (cellInfo.type === "community_chest") {
+    key = "community_chest";
+  } else {
+    key = "tax"
+  }
+
+  console.log(key)
+
+  const currentPlayer = players[currentPlayerIndex]
+  if (!currentPlayer) {
+    console.error("No hay jugador activo");
+    return;
+  }
+
+  // Acción si type es chance o community_chest
+  if (key === "chance" || key === "community_chest") {
+    // Seleccionar carta aleatoria
+    const cards = boardData[key];
+    const randomIndex = Math.floor(Math.random() * cards.length);
+    const selectedCard = cards[randomIndex];
+
+    console.log(`📜 Carta seleccionada de ${key}:`, selectedCard);
+
+    //Validar y hacer la action
+    if(selectedCard.action.money > 0 ) {
+      currentPlayer.money += selectedCard.action.money;
+      notyf.success(`${selectedCard.description} ($${selectedCard.action.money})`);
+    } else {
+      currentPlayer.money += selectedCard.action.money;
+      notyf.error(`${selectedCard.description} ($${selectedCard.action.money})`);    
+    }
+  // Acción si type es tax
+  } else {
+    currentPlayer.money += cellInfo.action.money
+    notyf.error(`Pagas ($${cellInfo.action.money}) de ${cellInfo.name}`);   
+  }
+
+  // Guardar cambios en sessionStorage
+  sessionStorage.setItem("players", JSON.stringify(players));
+
+  // Renderizar jugadores actualizados
+  const container = document.getElementById("player");
+  renderPlayerContainers(container, currentPlayerIndex);
+}
+
+// función para comprar casas
 function buildHouse(cell) {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
   const currentPlayer = players[currentPlayerIndex];
@@ -209,7 +268,7 @@ function buildHouse(cell) {
   showTooltip(cell.id);
 }
 
-// CAMBIO NUEVO: construir hotel
+// función para comprar hoteles
 function buildHotel(cell) {
   let players = JSON.parse(sessionStorage.getItem("players") || "[]");
   const currentPlayer = players[currentPlayerIndex];
@@ -309,6 +368,7 @@ function getExtraInfo(cellInfo, players) {
   `;
 }
 
+// Funcón para re calcular el valor de renta segun las construcciones (casa y hoteles)
 function calculateRent(cell, propiedad) {
   if (!cell.rent) return 0;
 
